@@ -1,27 +1,13 @@
-import express from 'express'
-import { listings } from './listings'
-const app = express()
-const port = 9000
+import { ApolloServer } from '@apollo/server'
+import { startStandaloneServer } from '@apollo/server/standalone'
+import { schema } from './graphql.js'
 
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
-
-app.get('/listings', (_req, res) => {
-	return res.send(listings)
+const server = new ApolloServer({
+	schema,
 })
 
-app.post('/delete-listing', (req, res) => {
-	const id: string = req.body.id
-
-	listings.map((listing, i) => {
-		if (listing.id === id) {
-			return res.send(listings.splice(i, 1))
-		}
-	})
-
-	return res.send('failed to delete listing')
+const { url } = await startStandaloneServer(server, {
+	listen: { port: 9000 },
 })
 
-app.listen(port)
-
-console.log(`[app]: http://localhost:${port}`)
+console.log(`🚀  [app]: ${url}`)
