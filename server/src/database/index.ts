@@ -1,11 +1,13 @@
 import { MongoClient } from 'mongodb'
+import { Database } from '../lib/types'
 
-const connectDatabase = async () => {
+const connectDatabase = async (): Promise<Database> => {
 	try {
 		const client = await MongoClient.connect(`${process.env.MONGO_URI}`)
 
 		const db = client.db('main')
-		console.log(`MongoDB Connected to db: ${db.namespace}`)
+		console.log(`
+	💽 MongoDB Connected to db: ${db.namespace}`)
 
 		return {
 			listings: db.collection('test_listings'),

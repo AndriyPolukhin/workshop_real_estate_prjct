@@ -21,15 +21,12 @@ async function startApolloServer() {
 			}
 		},
 	})
-	console.log(`
-    🚀  Server is running!
-    🎧  Listening on port ${port}
-    📭  Query at ${url}
-`)
-
-	// * testing collection access
-	// const listings = await db.listings.find({}).toArray()
-	// console.log(listings)
+	console.log(
+		`	🚀  Server is running!
+	🎧  Listening on port ${port}
+	📭  Query at ${url}
+`
+	)
 }
 
 startApolloServer()
