@@ -1,10 +1,9 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import { ApolloServer } from '@apollo/server'
 import { startStandaloneServer } from '@apollo/server/standalone'
 import { resolvers, typeDefs } from './graphql/index.js'
-import dotenv from 'dotenv'
 import connectDatabase from './database/index.js'
-
-dotenv.config()
 
 async function startApolloServer() {
 	const db = await connectDatabase()
