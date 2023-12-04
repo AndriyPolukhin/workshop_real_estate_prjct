@@ -14,11 +14,14 @@ async function startApolloServer() {
 	})
 	const { url } = await startStandaloneServer(server, {
 		listen: { port: 9000 },
-		context: async () => {
-			return {
-				database_collection: db,
-			}
-		},
+		context: async () => ({
+			db,
+		}),
+		// context: async () => {
+		// 	return {
+		// 		database_collection: db,
+		// 	}
+		// },
 	})
 	console.log(
 		`	🚀  Server is running!

@@ -1,24 +1,38 @@
 import { GraphQLError } from 'graphql'
-import { listings } from '../listings.js'
+import { Database, Listing } from '../lib/types.js'
+import { ObjectId } from 'mongodb'
 
 export const resolvers = {
 	Query: {
-		listings: () => {
-			return listings
+		listings: async (
+			_root: undefined,
+			_args: {},
+			{ db }: { db: Database }
+		): Promise<Listing[]> => {
+			return await db.listings.find({}).toArray()
 		},
 	},
 	Mutation: {
-		deleteListing: (_root: undefined, { id }: { id: string }) => {
-			for (let i = 0; i < listings.length; i++) {
-				if (listings[i].id === id) {
-					return listings.splice(i, 1)[0]
-				}
-			}
-			throw new GraphQLError('Invalid listing id value', {
-				extensions: {
-					code: 'BAD_USER_INPUT',
-				},
+		deleteListing: async (
+			_root: undefined,
+			{ id }: { id: string },
+			{ db }: { db: Database }
+		): Promise<Listing> => {
+			const deleteRes = await db.listings.findOneAndDelete({
+				_id: new ObjectId(id),
 			})
+
+			if (!deleteRes) {
+				throw new GraphQLError('Invalid listing id value', {
+					extensions: {
+						code: 'BAD_USER_INPUT',
+					},
+				})
+			}
+			return deleteRes
 		},
+	},
+	Listing: {
+		id: (listing: Listing): string => listing._id.toString(),
 	},
 }
