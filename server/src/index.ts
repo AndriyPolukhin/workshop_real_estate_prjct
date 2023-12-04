@@ -17,11 +17,6 @@ async function startApolloServer() {
 		context: async () => ({
 			db,
 		}),
-		// context: async () => {
-		// 	return {
-		// 		database_collection: db,
-		// 	}
-		// },
 	})
 	console.log(
 		`	🚀  Server is running!

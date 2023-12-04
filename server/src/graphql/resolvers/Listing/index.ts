@@ -1,8 +1,8 @@
 import { GraphQLError } from 'graphql'
-import { Database, Listing } from '../lib/types.js'
+import { Database, Listing } from '../../../lib/types'
 import { ObjectId } from 'mongodb'
 
-export const resolvers = {
+export const listingResolver = {
 	Query: {
 		listings: async (
 			_root: undefined,
