@@ -3,12 +3,21 @@ import ReactDOM from 'react-dom/client'
 
 import { Listings } from './sections'
 
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
+
 import reportWebVitals from './reportWebVitals'
+
+const client = new ApolloClient({
+	uri: '/api', // "http://localhost:9000"
+	cache: new InMemoryCache(),
+})
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
 	<React.StrictMode>
-		<Listings title='Real Estate Project' />
+		<ApolloProvider client={client}>
+			<Listings title='Real Estate Project' />
+		</ApolloProvider>
 	</React.StrictMode>
 )
 

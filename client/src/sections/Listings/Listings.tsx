@@ -1,33 +1,34 @@
-import { useQuery, useMutation } from '../../lib/api'
+// import { useQuery, useMutation } from '../../lib/api'
+import { useQuery, useMutation, gql } from '@apollo/client'
 import {
 	ListingsData,
 	DeleteListingData,
 	DeleteListingVariables,
 } from './types'
 // * Adding a GraphQL query
-const LISTINGS = `
-    query Listings {
-        listings {
-            id
-            title
-            image
-            address
-            price
-            numOfGuests
-            numOfBeds
-            numOfBaths
-            rating
-        }
-    }
-`
+const LISTINGS = gql(`
+	query Listings {
+		listings {
+			id
+			title
+			image
+			address
+			price
+			numOfGuests
+			numOfBeds
+			numOfBaths
+			rating
+		}
+	}
+`)
 
-const DELETE_LISTING = `
-    mutation DeleteListing($id: ID!) {
-        deleteListing(id: $id) {
-            id
-        }
-    }
-`
+const DELETE_LISTING = gql(`
+	mutation DeleteListing($id: ID!) {
+		deleteListing(id: $id) {
+			id
+		}
+	}
+`)
 
 interface Props {
 	title: String
@@ -41,7 +42,12 @@ export const Listings = ({ title }: Props) => {
 	] = useMutation<DeleteListingData, DeleteListingVariables>(DELETE_LISTING)
 
 	const handleDeleteListing = async (id: string) => {
-		await deleteListing({ id })
+		await deleteListing({
+			variables: { id: id },
+			onCompleted: (data) => {
+				console.log(data)
+			},
+		})
 		refetch()
 	}
 
