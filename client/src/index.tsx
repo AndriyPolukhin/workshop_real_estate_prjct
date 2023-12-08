@@ -2,8 +2,9 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 
 import { Listings } from './sections'
-
+import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
+// import './styles/index.css'
 
 import reportWebVitals from './reportWebVitals'
 
@@ -16,7 +17,9 @@ const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>
-			<Listings title='Real Estate Project' />
+			<StyleProvider hashPriority='high'>
+				<Listings title='Real Estate Project' />
+			</StyleProvider>
 		</ApolloProvider>
 	</React.StrictMode>
 )
