@@ -1,10 +1,14 @@
 // import { useQuery, useMutation } from '../../lib/api'
-import { useQuery, useMutation, gql } from '@apollo/client'
-import {
-	ListingsData,
-	DeleteListingData,
-	DeleteListingVariables,
-} from './types'
+import { useQuery, useMutation } from '@apollo/client'
+import { gql } from '../../__generated__'
+// import {
+// 	ListingsData,
+// 	DeleteListingData,
+// 	DeleteListingVariables,
+// } from './types'
+import type { ListingsQuery as ListingsData } from '../../__generated__/graphql'
+import type { DeleteListingMutation as DeleteListingData } from '../../__generated__/graphql'
+import type { DeleteListingMutationVariables as DeleteListingVariables } from '../../__generated__/graphql'
 // * Adding a GraphQL query
 const LISTINGS = gql(`
 	query Listings {
