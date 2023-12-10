@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb'
-import { Database } from '../lib/types'
+import { Database, User, Listing, Booking } from '../lib/types'
 
 const connectDatabase = async (): Promise<Database> => {
 	try {
@@ -10,7 +10,9 @@ const connectDatabase = async (): Promise<Database> => {
 	💽  MongoDB Connected to db: ${db.namespace}`)
 
 		return {
-			listings: db.collection('test_listings'),
+			bookings: db.collection<Booking>('bookings'),
+			listings: db.collection<Listing>('listings'),
+			users: db.collection<User>('users'),
 		}
 	} catch (error) {
 		console.log(`Error: ${error}`)

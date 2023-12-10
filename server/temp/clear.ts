@@ -1,8 +1,7 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import { Listing, User, Booking, Database } from '../src/lib/types'
-import { listings } from './listings'
-import { users } from './users'
+
 import { MongoClient } from 'mongodb'
 
 const connectDatabase = async (): Promise<Database> => {
@@ -24,26 +23,35 @@ const connectDatabase = async (): Promise<Database> => {
 	}
 }
 
-const seed = async () => {
+const clear = async () => {
 	try {
 		console.log(`
-    🎰 [seed] : running...`)
+    🎰 [clear] : running...`)
 
 		const db = await connectDatabase()
 
-		for (const listing of listings) {
-			await db.listings.insertOne(listing)
+		const bookings = await db.bookings.find({}).toArray()
+		const listings = await db.listings.find({}).toArray()
+		const users = await db.users.find({}).toArray()
+
+		if (bookings.length > 0) {
+			await db.bookings.drop()
 		}
-		for (const user of users) {
-			await db.users.insertOne(user)
+
+		if (listings.length > 0) {
+			await db.listings.drop()
+		}
+
+		if (users.length > 0) {
+			await db.users.drop()
 		}
 
 		console.log(`
-    🏟️ [seed] : successfull`)
+    🏟️ [clear] : successfull`)
 		process.exit()
 	} catch (error) {
-		throw new Error('failed to seed database')
+		throw new Error('failed to clear database')
 	}
 }
 
-seed()
+clear()
