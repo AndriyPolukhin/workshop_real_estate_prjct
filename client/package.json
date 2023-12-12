@@ -28,7 +28,6 @@
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
 		"codegen:schema": "npx apollo client:download-schema --endpoint=http://localhost:9000/api",
-		"codegen:generate": "",
 		"generate": "graphql-codegen"
 	},
 	"eslintConfig": {
