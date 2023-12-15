@@ -13,7 +13,7 @@ async function startApolloServer() {
 		resolvers,
 	})
 	const { url } = await startStandaloneServer(server, {
-		listen: { port: 9000 },
+		listen: { port: Number(`${port}`) },
 		context: async () => ({
 			db,
 		}),

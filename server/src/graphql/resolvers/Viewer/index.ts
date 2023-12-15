@@ -130,3 +130,9 @@ export const viewerResolvers = {
 		},
 	},
 }
+
+/**
+
+https://accounts.google.com/o/oauth2/v2/auth?access_type=online&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&include_granted_scopes=true&response_type=code&client_id=1038767682985-l7f0cip9k37ig74do0lmc5eovggj4ike.apps.googleusercontent.com&redirect_uri=http://localhost:3000/login
+
+ */

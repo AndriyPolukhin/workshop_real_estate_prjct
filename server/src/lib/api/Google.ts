@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import { google } from 'googleapis'
 
 const auth = new google.auth.OAuth2(
