@@ -7,19 +7,34 @@ import {
 	RouterProvider,
 	Outlet,
 } from 'react-router-dom'
-import { Home, Host, Listing, Listings, NotFound, User } from './sections'
+import {
+	Home,
+	Host,
+	Listing,
+	Listings,
+	Login,
+	NotFound,
+	User,
+} from './sections'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
+import { Layout } from 'antd'
 
 const client = new ApolloClient({
-	uri: '/api', // "http://localhost:9000"
+	uri: '/api', // "http://localhost:9000/api"
 	cache: new InMemoryCache(),
 })
-
 const App = () => (
-	<>
+	<Layout
+		id='app'
+		style={{
+			position: 'relative',
+			background: '#fff',
+			minHeight: '100vh',
+		}}
+	>
 		<Outlet></Outlet>
-	</>
+	</Layout>
 )
 
 const router = createBrowserRouter(
@@ -30,6 +45,7 @@ const router = createBrowserRouter(
 
 			<Route path='/listing/:id' element={<Listing />} />
 			<Route path='/listings/:location?' element={<Listings />} />
+			<Route path='/login' element={<Login />} />
 			<Route path='/user/:id' element={<User />} />
 			<Route path='*' element={<NotFound />} />
 		</Route>
