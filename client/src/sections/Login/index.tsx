@@ -1,5 +1,6 @@
 // * :logo-google
 import googleLogo from './assets/google_logo.jpg'
+import { useState } from 'react'
 import { Layout, Card, Typography } from 'antd'
 
 const { Content } = Layout
@@ -20,18 +21,20 @@ const introStyle: React.CSSProperties = {
 	marginTop: '5px',
 }
 
-const googleButtonStyle: React.CSSProperties = {
-	margin: '40px auto',
-	borderRadius: '2px',
-	backgroundColor: '#4285f4',
-	boxShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.24), 0 0 1px 0 rgba(0, 0, 0, 0.12)',
-	border: 'none',
-	display: 'flex',
-	alignItems: 'center',
-	padding: '1px',
-	color: '#fff',
-	cursor: 'pointer',
-}
+// const googleButtonStyle: React.CSSProperties = {
+// 	margin: '40px auto',
+// 	borderRadius: '2px',
+// 	backgroundColor: '#4285f4',
+// 	boxShadow: `${isHover}`
+// 		? '0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12)'
+// 		: '0 1px 1px 0 rgba(0, 0, 0, 0.24), 0 0 1px 0 rgba(0, 0, 0, 0.12)',
+// 	border: 'none',
+// 	display: 'flex',
+// 	alignItems: 'center',
+// 	padding: '1px',
+// 	color: '#fff',
+// 	cursor: 'pointer',
+// }
 const googleButtonTextStyle: React.CSSProperties = {
 	textAlign: 'left',
 	whiteSpace: 'nowrap',
@@ -39,6 +42,27 @@ const googleButtonTextStyle: React.CSSProperties = {
 }
 
 export const Login: React.FC = () => {
+	const [isHover, setIsHover] = useState(false)
+	const handleMouseEnter = () => {
+		setIsHover(true)
+	}
+	const handleMouseLeave = () => {
+		setIsHover(false)
+	}
+	const googleButtonStyle: React.CSSProperties = {
+		margin: '40px auto',
+		borderRadius: '2px',
+		backgroundColor: isHover ? '#3367d6' : '#4285f4',
+		boxShadow: isHover
+			? '0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12)'
+			: '0 1px 1px 0 rgba(0, 0, 0, 0.24), 0 0 1px 0 rgba(0, 0, 0, 0.12)',
+		border: 'none',
+		display: 'flex',
+		alignItems: 'center',
+		padding: '1px',
+		color: '#fff',
+		cursor: 'pointer',
+	}
 	return (
 		<Content style={contentStyle}>
 			<Card style={cardStyle}>
@@ -53,7 +77,11 @@ export const Login: React.FC = () => {
 					</Title>
 					<Text>Sign in with Google to start booking available rentals!</Text>
 				</div>
-				<button style={googleButtonStyle}>
+				<button
+					style={googleButtonStyle}
+					onMouseEnter={handleMouseEnter}
+					onMouseLeave={handleMouseLeave}
+				>
 					<img alt='Google Logo' src={googleLogo} style={{ height: '43px' }} />
 					<span style={googleButtonTextStyle}>Sign in with Google</span>
 				</button>
