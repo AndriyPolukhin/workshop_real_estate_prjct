@@ -21,20 +21,6 @@ const introStyle: React.CSSProperties = {
 	marginTop: '5px',
 }
 
-// const googleButtonStyle: React.CSSProperties = {
-// 	margin: '40px auto',
-// 	borderRadius: '2px',
-// 	backgroundColor: '#4285f4',
-// 	boxShadow: `${isHover}`
-// 		? '0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12)'
-// 		: '0 1px 1px 0 rgba(0, 0, 0, 0.24), 0 0 1px 0 rgba(0, 0, 0, 0.12)',
-// 	border: 'none',
-// 	display: 'flex',
-// 	alignItems: 'center',
-// 	padding: '1px',
-// 	color: '#fff',
-// 	cursor: 'pointer',
-// }
 const googleButtonTextStyle: React.CSSProperties = {
 	textAlign: 'left',
 	whiteSpace: 'nowrap',

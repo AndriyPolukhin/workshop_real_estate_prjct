@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
 	createBrowserRouter,
@@ -16,6 +16,7 @@ import {
 	NotFound,
 	User,
 } from './sections'
+import { Viewer } from './lib/types'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 import { Layout } from 'antd'
@@ -24,18 +25,31 @@ const client = new ApolloClient({
 	uri: '/api', // "http://localhost:9000/api"
 	cache: new InMemoryCache(),
 })
-const App = () => (
-	<Layout
-		id='app'
-		style={{
-			position: 'relative',
-			background: '#fff',
-			minHeight: '100vh',
-		}}
-	>
-		<Outlet></Outlet>
-	</Layout>
-)
+
+const initialViewer: Viewer = {
+	id: null,
+	token: null,
+	avatar: null,
+	hasWallet: null,
+	didRequest: false,
+}
+
+const App = () => {
+	const [viewer, setViewer] = useState(initialViewer)
+
+	return (
+		<Layout
+			id='app'
+			style={{
+				position: 'relative',
+				background: '#fff',
+				minHeight: '100vh',
+			}}
+		>
+			<Outlet></Outlet>
+		</Layout>
+	)
+}
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
