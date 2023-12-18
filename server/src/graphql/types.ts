@@ -15,15 +15,33 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type LogInInput = {
+  code: Scalars['String']['input'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  logIn: Scalars['String']['output'];
-  logOut: Scalars['String']['output'];
+  logIn: Viewer;
+  logOut: Viewer;
+};
+
+
+export type MutationLogInArgs = {
+  input?: InputMaybe<LogInInput>;
 };
 
 export type Query = {
   __typename?: 'Query';
   authUrl: Scalars['String']['output'];
+};
+
+export type Viewer = {
+  __typename?: 'Viewer';
+  avatar?: Maybe<Scalars['String']['output']>;
+  didRequest: Scalars['Boolean']['output'];
+  hasWallet?: Maybe<Scalars['Boolean']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  token?: Maybe<Scalars['String']['output']>;
 };
 
 
@@ -98,30 +116,46 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  ID: ResolverTypeWrapper<Scalars['ID']['output']>;
+  LogInInput: LogInInput;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  Viewer: ResolverTypeWrapper<Viewer>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean']['output'];
+  ID: Scalars['ID']['output'];
+  LogInInput: LogInInput;
   Mutation: {};
   Query: {};
   String: Scalars['String']['output'];
+  Viewer: Viewer;
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  logIn?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  logOut?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  logIn?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, Partial<MutationLogInArgs>>;
+  logOut?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
+export type ViewerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Viewer'] = ResolversParentTypes['Viewer']> = {
+  avatar?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  didRequest?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  hasWallet?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
+  token?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type Resolvers<ContextType = any> = {
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  Viewer?: ViewerResolvers<ContextType>;
 };
 

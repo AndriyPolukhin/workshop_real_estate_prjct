@@ -6,6 +6,7 @@ import {
 	Route,
 	RouterProvider,
 	Outlet,
+	useOutletContext,
 } from 'react-router-dom'
 import {
 	Home,
@@ -33,10 +34,15 @@ const initialViewer: Viewer = {
 	hasWallet: null,
 	didRequest: false,
 }
+interface ViewerType {
+	setViewer: (viewer: Viewer) => void
+}
 
 const App = () => {
-	const [viewer, setViewer] = useState(initialViewer)
+	const [viewer, setViewer] = useState<Viewer>(initialViewer)
 
+	console.log('Here is the Viewer: ')
+	console.log(viewer)
 	return (
 		<Layout
 			id='app'
@@ -46,9 +52,13 @@ const App = () => {
 				minHeight: '100vh',
 			}}
 		>
-			<Outlet></Outlet>
+			<Outlet context={{ setViewer }} />
 		</Layout>
 	)
+}
+
+export const useViewer = () => {
+	return useOutletContext<ViewerType>()
 }
 
 const router = createBrowserRouter(
