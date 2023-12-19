@@ -39,8 +39,8 @@ const LogInViaGoogle = async (
 	const userEmail =
 		userEmailsList && userEmailsList[0].value ? userEmailsList[0].value : ''
 
-	if (!userName || !userId || userAvatar || userEmail) {
-		throw new Error('Google login error')
+	if (!userName || !userId || !userAvatar || !userEmail) {
+		throw new Error('[App] Google login error')
 	}
 
 	const updateRes = await db.users.findOneAndUpdate(
@@ -57,6 +57,8 @@ const LogInViaGoogle = async (
 	)
 
 	let viewer = updateRes
+
+	console.log('[resolvers.Viewer] after update: ', viewer)
 	if (!viewer) {
 		const insertResult = await db.users.insertOne({
 			_id: userId,
@@ -110,13 +112,15 @@ export const viewerResolvers = {
 					didRequest: true,
 				}
 			} catch (error) {
-				throw new Error(`Failed to log in: ${error}`)
+				console.error('Error during logIn Mutation:', error)
+				// throw new Error(`[resolvers.Viewer]: Failed to log in: ${error}`)
 			}
 		},
 		logOut: () => {
 			try {
 				return { didRequest: true }
 			} catch (error) {
+				console.error('Error during logOut Mutation:', error)
 				throw new Error(`Failed to log out: ${error}`)
 			}
 		},

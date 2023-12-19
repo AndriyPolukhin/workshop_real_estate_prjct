@@ -1,33 +1,69 @@
 // * :logo-google
 import googleLogo from './assets/google_logo.jpg'
-import { useState } from 'react'
-import { Layout, Card, Typography } from 'antd'
+import { useState, useEffect, useRef } from 'react'
+import { useApolloClient, useMutation } from '@apollo/client'
+import { LOG_IN } from '../../lib/graphql/mutations'
+import { AUTH_URL } from '../../lib/graphql/queries'
+import {
+	LogInMutation as LogInData,
+	LogInMutationVariables,
+	Viewer,
+} from '../../lib/graphql/__generated__/graphql'
+import { AuthUrlQuery as AuthUrlData } from '../../lib/graphql/__generated__/graphql'
+import { Layout, Card, Typography, Spin } from 'antd'
+import { useViewer } from '../../index'
 
 const { Content } = Layout
 const { Text, Title } = Typography
 
-const contentStyle: React.CSSProperties = {
-	display: 'flex',
-	alignItems: 'center',
-	justifyContent: 'center',
-}
-const cardStyle: React.CSSProperties = {
-	width: '450px',
-	textAlign: 'center',
-	padding: '10px 0 20px',
-}
-
-const introStyle: React.CSSProperties = {
-	marginTop: '5px',
-}
-
-const googleButtonTextStyle: React.CSSProperties = {
-	textAlign: 'left',
-	whiteSpace: 'nowrap',
-	padding: '10px',
-}
-
 export const Login: React.FC = () => {
+	const { setViewer } = useViewer()
+	/** Call apollo client to make queries */
+	const client = useApolloClient()
+	/** LogIn via useMutation with a LogIn GraphQL Mutation */
+	const [logIn, { data: logInData, loading: logInLoading, error: logInError }] =
+		useMutation<LogInData, LogInMutationVariables>(LOG_IN, {
+			onCompleted: (data) => {
+				if (data && data.logIn) {
+					// console.log('Retrieved user data at data.logIn:', data.logIn)
+
+					setViewer({
+						id: data.logIn.id || null,
+						token: data.logIn.token || null,
+						avatar: data.logIn.avatar || null,
+						hasWallet: data.logIn.hasWallet || null,
+						didRequest: data.logIn.didRequest || false,
+					})
+				}
+			},
+		})
+
+	/** refference persist until the component is reloaded */
+	const logInRef = useRef(logIn)
+
+	useEffect(() => {
+		const code = new URL(window.location.href).searchParams.get('code')
+
+		if (code) {
+			logInRef.current({
+				variables: {
+					input: { code },
+				},
+			})
+		}
+	}, [])
+
+	const handleAuthorize = async () => {
+		try {
+			const { data } = await client.query<AuthUrlData>({
+				query: AUTH_URL,
+			})
+			window.location.href = data.authUrl
+		} catch (error) {
+			throw new Error('Failed to fetch data')
+		}
+	}
+
 	const [isHover, setIsHover] = useState(false)
 	const handleMouseEnter = () => {
 		setIsHover(true)
@@ -49,6 +85,15 @@ export const Login: React.FC = () => {
 		color: '#fff',
 		cursor: 'pointer',
 	}
+
+	if (logInLoading) {
+		return (
+			<Content style={contentStyle}>
+				<Spin size='large' tip='Logging you in...' />
+			</Content>
+		)
+	}
+
 	return (
 		<Content style={contentStyle}>
 			<Card style={cardStyle}>
@@ -67,6 +112,7 @@ export const Login: React.FC = () => {
 					style={googleButtonStyle}
 					onMouseEnter={handleMouseEnter}
 					onMouseLeave={handleMouseLeave}
+					onClick={handleAuthorize}
 				>
 					<img alt='Google Logo' src={googleLogo} style={{ height: '43px' }} />
 					<span style={googleButtonTextStyle}>Sign in with Google</span>
@@ -78,4 +124,25 @@ export const Login: React.FC = () => {
 			</Card>
 		</Content>
 	)
+}
+
+const contentStyle: React.CSSProperties = {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+}
+const cardStyle: React.CSSProperties = {
+	width: '450px',
+	textAlign: 'center',
+	padding: '10px 0 20px',
+}
+
+const introStyle: React.CSSProperties = {
+	marginTop: '5px',
+}
+
+const googleButtonTextStyle: React.CSSProperties = {
+	textAlign: 'left',
+	whiteSpace: 'nowrap',
+	padding: '10px',
 }
