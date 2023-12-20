@@ -1,22 +1,34 @@
 // * :logo-google
 import googleLogo from './assets/google_logo.jpg'
 import { useState, useEffect, useRef } from 'react'
+import { redirectDocument } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useApolloClient, useMutation } from '@apollo/client'
+import { ErrorBanner } from '../../lib/components'
 import { LOG_IN } from '../../lib/graphql/mutations'
 import { AUTH_URL } from '../../lib/graphql/queries'
 import {
 	LogInMutation as LogInData,
 	LogInMutationVariables,
-	Viewer,
 } from '../../lib/graphql/__generated__/graphql'
 import { AuthUrlQuery as AuthUrlData } from '../../lib/graphql/__generated__/graphql'
 import { Layout, Card, Typography, Spin } from 'antd'
+import {
+	displayErrorMessage,
+	displaySuccessNotification,
+} from '../../lib/utils'
 import { useViewer } from '../../index'
 
 const { Content } = Layout
 const { Text, Title } = Typography
 
 export const Login: React.FC = () => {
+	const navigate = useNavigate()
+	const redirectTo = (id: string | null | undefined) => {
+		if (id) {
+			return navigate(`/user/${id}`)
+		}
+	}
 	const { setViewer } = useViewer()
 	/** Call apollo client to make queries */
 	const client = useApolloClient()
@@ -25,15 +37,16 @@ export const Login: React.FC = () => {
 		useMutation<LogInData, LogInMutationVariables>(LOG_IN, {
 			onCompleted: (data) => {
 				if (data && data.logIn) {
-					// console.log('Retrieved user data at data.logIn:', data.logIn)
-
+					console.log('Retrieved user data at data.logIn:', data.logIn)
 					setViewer({
 						id: data.logIn.id || null,
 						token: data.logIn.token || null,
 						avatar: data.logIn.avatar || null,
-						hasWallet: data.logIn.hasWallet || null,
+						hasWallet: data.logIn.hasWallet || false,
 						didRequest: data.logIn.didRequest || false,
 					})
+					redirectTo(data.logIn.id)
+					displaySuccessNotification("You've successfully logged in!")
 				}
 			},
 		})
@@ -59,8 +72,10 @@ export const Login: React.FC = () => {
 				query: AUTH_URL,
 			})
 			window.location.href = data.authUrl
-		} catch (error) {
-			throw new Error('Failed to fetch data')
+		} catch {
+			displayErrorMessage(
+				"Sorry! We weren't able to log you in. Please try again later!"
+			)
 		}
 	}
 
@@ -89,13 +104,18 @@ export const Login: React.FC = () => {
 	if (logInLoading) {
 		return (
 			<Content style={contentStyle}>
-				<Spin size='large' tip='Logging you in...' />
+				<Spin size='large' />
 			</Content>
 		)
 	}
 
+	const logInErrorBannerElement = logInError ? (
+		<ErrorBanner description="Sorry! We weren't able to log you in. Please try again later!" />
+	) : null
+
 	return (
 		<Content style={contentStyle}>
+			{logInErrorBannerElement}
 			<Card style={cardStyle}>
 				<div style={introStyle}>
 					<Title level={3} style={introStyle}>

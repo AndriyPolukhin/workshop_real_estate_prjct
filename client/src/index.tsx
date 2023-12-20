@@ -42,7 +42,8 @@ const App = () => {
 	const [viewer, setViewer] = useState<Viewer>(initialViewer)
 
 	console.log('Here is the Viewer: ')
-	console.log(viewer)
+	console.log({ viewer })
+
 	return (
 		<Layout
 			id='app'
