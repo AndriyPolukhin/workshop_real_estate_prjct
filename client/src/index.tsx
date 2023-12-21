@@ -42,9 +42,6 @@ interface ViewerType {
 const App = () => {
 	const [viewer, setViewer] = useState<Viewer>(initialViewer)
 
-	console.log('Here is the Viewer: ')
-	console.log({ viewer })
-
 	return (
 		<Layout
 			id='app'
@@ -60,7 +57,7 @@ const App = () => {
 					zIndex: 99,
 				}}
 			>
-				<AppHeader viewer={viewer} />
+				<AppHeader viewer={viewer} setViewer={setViewer} />
 			</Affix>
 			<Outlet context={{ setViewer }} />
 		</Layout>

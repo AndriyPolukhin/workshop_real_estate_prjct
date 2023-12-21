@@ -8,9 +8,10 @@ const { Header } = Layout
 
 interface Props {
 	viewer: Viewer
+	setViewer: (viewer: Viewer) => void
 }
 
-export const AppHeader = ({ viewer }: Props) => {
+export const AppHeader = ({ viewer, setViewer }: Props) => {
 	return (
 		<Header style={AppHeaderStyle}>
 			<div style={AppHeaderLogoSearchStyle}>
@@ -27,7 +28,7 @@ export const AppHeader = ({ viewer }: Props) => {
 				</div>
 			</div>
 			<div style={AppHeaderMenuSection}>
-				<MenuItems viewer={viewer} />
+				<MenuItems viewer={viewer} setViewer={setViewer} />
 			</div>
 		</Header>
 	)
