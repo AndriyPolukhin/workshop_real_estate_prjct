@@ -9,6 +9,7 @@ import {
 	useOutletContext,
 } from 'react-router-dom'
 import {
+	AppHeader,
 	Home,
 	Host,
 	Listing,
@@ -20,7 +21,7 @@ import {
 import { Viewer } from './lib/types'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
-import { Layout } from 'antd'
+import { Layout, Affix } from 'antd'
 
 const client = new ApolloClient({
 	uri: '/api', // "http://localhost:9000/api"
@@ -53,6 +54,14 @@ const App = () => {
 				minHeight: '100vh',
 			}}
 		>
+			<Affix
+				offsetTop={0}
+				style={{
+					zIndex: 99,
+				}}
+			>
+				<AppHeader viewer={viewer} />
+			</Affix>
 			<Outlet context={{ setViewer }} />
 		</Layout>
 	)
