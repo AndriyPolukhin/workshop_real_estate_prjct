@@ -10,7 +10,7 @@ import {
 	displaySuccessNotification,
 } from '../../../../lib/utils'
 import { Viewer } from '../../../../lib/types'
-
+import type { MenuProps } from 'antd'
 interface Props {
 	viewer: Viewer
 	setViewer: (viewer: Viewer) => void
@@ -18,7 +18,93 @@ interface Props {
 
 const { Item, SubMenu } = Menu
 
+const MenuStyles: React.CSSProperties = {
+	width: '100%',
+	padding: '0 20px',
+	lineHeight: '63px',
+	border: 0,
+}
+
 export const MenuItems = ({ viewer, setViewer }: Props) => {
+	const [logOut] = useMutation<LogOutData>(LOG_OUT, {
+		onCompleted: (data) => {
+			if (data && data.logOut) {
+				setViewer({
+					id: data.logOut.id || null,
+					token: data.logOut.token || null,
+					avatar: data.logOut.avatar || null,
+					hasWallet: data.logOut.hasWallet || false,
+					didRequest: data.logOut.didRequest || true,
+				})
+				displaySuccessNotification("You've successfully logged out!")
+			}
+		},
+		onError: (data) => {
+			displayErrorMessage(
+				"Sorry! We weren't able to log you out. Please try again later!"
+			)
+		},
+	})
+
+	const handleLogOut = () => {
+		logOut()
+	}
+
+	const items: MenuProps['items'] = [
+		{
+			label: <Link to='/host'>Host</Link>,
+			key: '/host',
+			icon: <HomeOutlined style={{ paddingRight: '5px' }} />,
+		},
+		{
+			label: (
+				<Link to='/login'>
+					<Button type='primary'>Sign In</Button>
+				</Link>
+			),
+			key: '/login',
+		},
+	]
+
+	const items2: MenuProps['items'] = [
+		{
+			label: <Link to='/host'>Host</Link>,
+			key: '/host',
+			icon: <HomeOutlined style={{ paddingRight: '5px' }} />,
+		},
+		{
+			label: <Avatar src={viewer.avatar} />,
+			key: 'avatar',
+			children: [
+				{
+					label: <Link to='/user'>Profile</Link>,
+					key: '/user',
+					icon: <UserOutlined style={{ paddingRight: '5px' }} />,
+				},
+				{
+					label: (
+						<span onClick={handleLogOut} style={{ textDecoration: 'none' }}>
+							Log out
+						</span>
+					),
+					key: '/logout',
+					icon: <LogoutOutlined />,
+				},
+			],
+		},
+	]
+
+	return (
+		<Menu
+			style={MenuStyles}
+			mode='horizontal'
+			selectable={false}
+			items={viewer.id && viewer.avatar ? items2 : items}
+		/>
+	)
+}
+
+export const MenuItemsBackup = ({ viewer, setViewer }: Props) => {
 	const [logOut] = useMutation<LogOutData>(LOG_OUT, {
 		onCompleted: (data) => {
 			if (data && data.logOut) {
@@ -77,10 +163,4 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 			{subMenuLogin}
 		</Menu>
 	)
-}
-const MenuStyles: React.CSSProperties = {
-	width: '100%',
-	padding: '0 20px',
-	lineHeight: '63px',
-	border: 0,
 }
