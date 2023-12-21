@@ -25,7 +25,7 @@ export const Google = {
 	logIn: async (code: string) => {
 		// try {
 		const { tokens } = await auth.getToken(code)
-		console.log('Retrieved user tokens:', tokens)
+		// console.log('Retrieved user tokens:', tokens)
 		auth.setCredentials(tokens)
 
 		const { data } = await google.people({ version: 'v1', auth }).people.get({
@@ -33,7 +33,7 @@ export const Google = {
 			personFields: 'emailAddresses,names,photos',
 		})
 
-		console.log('Retrieved user data:', data)
+		// console.log('Retrieved user data:', data)
 
 		return { user: data }
 	},
