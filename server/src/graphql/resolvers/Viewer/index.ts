@@ -108,7 +108,6 @@ const logInViaCookie = async (
 
 	let viewer = updateRes
 	console.log('[resolvers.Viewer] after update: logInViaCookie')
-	console.log({ viewer })
 
 	if (!viewer) {
 		res.clearCookie('viewer', cookieOptions)
