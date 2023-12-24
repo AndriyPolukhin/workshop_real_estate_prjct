@@ -28,7 +28,6 @@ export const App = () => {
 		{
 			onCompleted: (data) => {
 				if (data && data.logIn) {
-					console.log('Retrieved user data at data.logIn:', data.logIn)
 					setViewer({
 						id: data.logIn.id || null,
 						token: data.logIn.token || null,
@@ -36,6 +35,12 @@ export const App = () => {
 						hasWallet: data.logIn.hasWallet || false,
 						didRequest: data.logIn.didRequest || false,
 					})
+
+					if (data.logIn.token) {
+						sessionStorage.setItem('token', data.logIn.token)
+					} else {
+						sessionStorage.removeItem('token')
+					}
 				}
 			},
 		}

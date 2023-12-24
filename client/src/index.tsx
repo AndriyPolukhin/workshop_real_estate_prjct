@@ -22,6 +22,10 @@ import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 const client = new ApolloClient({
 	uri: '/api', // "http://localhost:9000/api"
 	cache: new InMemoryCache(),
+	headers: {
+		'X-CSRF-TOKEN': sessionStorage.getItem('token') || '',
+		viewerId: sessionStorage.getItem('viewerId') || '',
+	},
 })
 
 const router = createBrowserRouter(

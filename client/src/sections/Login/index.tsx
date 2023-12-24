@@ -44,6 +44,7 @@ export const Login: React.FC = () => {
 						hasWallet: data.logIn.hasWallet || false,
 						didRequest: data.logIn.didRequest || false,
 					})
+					sessionStorage.setItem('token', data.logIn.token || '')
 					redirectTo(data.logIn.id)
 					displaySuccessNotification("You've successfully logged in!")
 				}

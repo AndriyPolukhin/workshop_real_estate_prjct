@@ -36,6 +36,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 					hasWallet: data.logOut.hasWallet || false,
 					didRequest: data.logOut.didRequest || true,
 				})
+				sessionStorage.removeItem('token')
 				displaySuccessNotification("You've successfully logged out!")
 			}
 		},
