@@ -2,11 +2,20 @@ import crypto from 'crypto'
 import { Google } from '../../../lib/api'
 import { Viewer, Database, User } from '../../../lib/types'
 import { LogInArgs } from './types'
+import { Request, Response } from 'express'
 
-const LogInViaGoogle = async (
+const cookieOptions = {
+	httpOnly: true,
+	sameSite: true,
+	// signed: true,
+	secure: process.env.NODE_ENV === 'development' ? false : true,
+}
+
+const logInViaGoogle = async (
 	code: string,
 	token: string,
-	db: Database
+	db: Database,
+	res: Response
 ): Promise<User> => {
 	const { user } = await Google.logIn(code)
 
@@ -58,7 +67,7 @@ const LogInViaGoogle = async (
 
 	let viewer = updateRes
 
-	console.log('[resolvers.Viewer] after update: ', viewer)
+	// console.log('[resolvers.Viewer] after update: ', viewer)
 	if (!viewer) {
 		const insertResult = await db.users.insertOne({
 			_id: userId,
@@ -73,6 +82,38 @@ const LogInViaGoogle = async (
 
 		viewer = await db.users.findOne({ _id: insertResult.insertedId })
 	}
+
+	res.cookie('viewer', userId, {
+		...cookieOptions,
+		maxAge: 365 * 24 * 60 * 60,
+	})
+	return viewer as User
+}
+
+const logInViaCookie = async (
+	token: string,
+	db: Database,
+	req: Request,
+	res: Response
+): Promise<User | undefined> => {
+	const updateRes = await db.users.findOneAndUpdate(
+		{
+			_id: req.signedCookies.viewer,
+		},
+		{
+			$set: { token },
+		},
+		{ returnDocument: 'after' }
+	)
+
+	let viewer = updateRes
+	console.log('[resolvers.Viewer] after update: logInViaCookie')
+	console.log({ viewer })
+
+	if (!viewer) {
+		res.clearCookie('viewer', cookieOptions)
+	}
+
 	return viewer as User
 }
 
@@ -90,34 +131,46 @@ export const viewerResolvers = {
 		logIn: async (
 			_root: undefined,
 			{ input }: LogInArgs,
-			{ db }: { db: Database }
+			{ db, req, res }: { db: Database; req: Request; res: Response }
 		) => {
 			try {
 				const code = input ? input.code : null
 				const token = crypto.randomBytes(16).toString('hex')
 
 				const viewer: User | undefined = code
-					? await LogInViaGoogle(code, token, db)
-					: undefined
+					? await logInViaGoogle(code, token, db, res)
+					: await logInViaCookie(token, db, req, res)
 
 				if (!viewer) {
-					return { didRequest: true }
+					return {
+						_id: null,
+						token: null,
+						avatar: null,
+						walletId: false,
+						didRequest: true,
+					}
 				}
 
 				return {
 					_id: viewer._id,
 					token: viewer.token,
 					avatar: viewer.avatar,
-					walletId: viewer.walletId,
+					walletId: viewer.walletId || false,
 					didRequest: true,
 				}
 			} catch (error) {
-				console.error('Error during logIn Mutation:', error)
+				console.info('resolver.Viewer: Mutation.logIn : triggered error')
+				// console.error('Error during logIn Mutation:', error)
 				// throw new Error(`[resolvers.Viewer]: Failed to log in: ${error}`)
 			}
 		},
-		logOut: () => {
+		logOut: (
+			_root: undefined,
+			_args: {},
+			{ res }: { res: Response }
+		): Viewer => {
 			try {
+				res.clearCookie('viewer', cookieOptions)
 				return { didRequest: true }
 			} catch (error) {
 				console.error('Error during logOut Mutation:', error)
