@@ -3,6 +3,7 @@ import { Google } from '../../../lib/api'
 import { Viewer, Database, User } from '../../../lib/types'
 import { LogInArgs } from './types'
 import { Request, Response } from 'express'
+import { getCookieValue } from '../../../lib/utils'
 
 const cookieOptions = {
 	httpOnly: true,
@@ -96,9 +97,11 @@ const logInViaCookie = async (
 	req: Request,
 	res: Response
 ): Promise<User | undefined> => {
+	const viewerCookie = await getCookieValue(req.headers.cookie, 'viewer')
+
 	const updateRes = await db.users.findOneAndUpdate(
 		{
-			_id: req.signedCookies.viewer,
+			_id: `${viewerCookie}`,
 		},
 		{
 			$set: { token },
@@ -107,7 +110,6 @@ const logInViaCookie = async (
 	)
 
 	let viewer = updateRes
-	console.log('[resolvers.Viewer] after update: logInViaCookie')
 
 	if (!viewer) {
 		res.clearCookie('viewer', cookieOptions)
@@ -159,8 +161,7 @@ export const viewerResolvers = {
 				}
 			} catch (error) {
 				console.info('resolver.Viewer: Mutation.logIn : triggered error')
-				// console.error('Error during logIn Mutation:', error)
-				// throw new Error(`[resolvers.Viewer]: Failed to log in: ${error}`)
+				// console.log({ error })
 			}
 		},
 		logOut: (
