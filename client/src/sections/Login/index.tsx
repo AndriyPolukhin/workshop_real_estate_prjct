@@ -36,7 +36,7 @@ export const Login: React.FC = () => {
 		useMutation<LogInData, LogInMutationVariables>(LOG_IN, {
 			onCompleted: (data) => {
 				if (data && data.logIn) {
-					console.log('Retrieved user data at data.logIn:', data.logIn)
+					// console.log('Retrieved user data at data.logIn:', data.logIn)
 					setViewer({
 						id: data.logIn.id || null,
 						token: data.logIn.token || null,
@@ -108,9 +108,10 @@ export const Login: React.FC = () => {
 		)
 	}
 
-	const logInErrorBannerElement = logInError ? (
-		<ErrorBanner description="Sorry! We weren't able to log you in. Please try again later!" />
-	) : null
+	const logInErrorBannerElement =
+		!logInData && logInError ? (
+			<ErrorBanner description="Sorry! We weren't able to log you in. Please try again later!" />
+		) : null
 
 	return (
 		<Content style={contentStyle}>
