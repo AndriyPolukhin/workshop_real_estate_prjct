@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import {
 	createBrowserRouter,
 	createRoutesFromElements,
 	Route,
 	RouterProvider,
-	Outlet,
-	useOutletContext,
 } from 'react-router-dom'
 import {
-	AppHeader,
+	App,
 	Home,
 	Host,
 	Listing,
@@ -18,55 +16,13 @@ import {
 	NotFound,
 	User,
 } from './sections'
-import { Viewer } from './lib/types'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
-import { Layout, Affix } from 'antd'
 
 const client = new ApolloClient({
 	uri: '/api', // "http://localhost:9000/api"
 	cache: new InMemoryCache(),
 })
-
-const initialViewer: Viewer = {
-	id: null,
-	token: null,
-	avatar: null,
-	hasWallet: null,
-	didRequest: false,
-}
-interface ViewerType {
-	setViewer: (viewer: Viewer) => void
-}
-
-const App = () => {
-	const [viewer, setViewer] = useState<Viewer>(initialViewer)
-
-	return (
-		<Layout
-			id='app'
-			style={{
-				position: 'relative',
-				background: '#fff',
-				minHeight: '100vh',
-			}}
-		>
-			<Affix
-				offsetTop={0}
-				style={{
-					zIndex: 99,
-				}}
-			>
-				<AppHeader viewer={viewer} setViewer={setViewer} />
-			</Affix>
-			<Outlet context={{ setViewer }} />
-		</Layout>
-	)
-}
-
-export const useViewer = () => {
-	return useOutletContext<ViewerType>()
-}
 
 const router = createBrowserRouter(
 	createRoutesFromElements(

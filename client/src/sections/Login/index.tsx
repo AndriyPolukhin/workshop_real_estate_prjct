@@ -16,7 +16,7 @@ import {
 	displayErrorMessage,
 	displaySuccessNotification,
 } from '../../lib/utils'
-import { useViewer } from '../../index'
+import { useViewer } from '../index'
 
 const { Content } = Layout
 const { Text, Title } = Typography
