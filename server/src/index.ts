@@ -32,19 +32,20 @@ async function startApolloServer() {
 				origin: 'http://localhost:3000',
 				credentials: 'include',
 			},
-			cookie: {
-				secret: cookieParser(process.env.SECRET),
-			},
 		}),
 	})
 
 	app.use(
-		'/',
 		cookieParser(process.env.SECRET),
 		expressMiddleware(server, {
-			context: async ({ res, req }) => ({ res, req }),
+			context: async ({ req, res }) => ({ req, res }),
 		})
 	)
+	app.get('/', (req, res) => {
+		const viewerId = req.cookies.viewer
+		res.send(viewerId)
+	})
+
 	console.log(
 		`	🚀  Server is running!
 	🎧  Listening on port ${port}

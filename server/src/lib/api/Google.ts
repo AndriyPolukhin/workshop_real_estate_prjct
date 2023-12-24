@@ -9,10 +9,6 @@ const auth = new google.auth.OAuth2(
 	`${process.env.PUBLIC_URL}/login`
 )
 
-// google.options({
-// 	auth,
-// })
-
 export const Google = {
 	authUrl: auth.generateAuthUrl({
 		access_type: 'offline',
@@ -21,9 +17,9 @@ export const Google = {
 			'https://www.googleapis.com/auth/userinfo.profile',
 			'https://www.googleapis.com/auth/user.emails.read',
 		],
+		include_granted_scopes: true,
 	}),
 	logIn: async (code: string) => {
-		// try {
 		const { tokens } = await auth.getToken(code)
 		// console.log('Retrieved user tokens:', tokens)
 		auth.setCredentials(tokens)
@@ -32,8 +28,6 @@ export const Google = {
 			resourceName: 'people/me',
 			personFields: 'emailAddresses,names,photos',
 		})
-
-		// console.log('Retrieved user data:', data)
 
 		return { user: data }
 	},
