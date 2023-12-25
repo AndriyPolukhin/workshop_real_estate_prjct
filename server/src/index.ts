@@ -1,12 +1,14 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import { ApolloServer } from '@apollo/server'
-import { startStandaloneServer } from '@apollo/server/standalone'
+// import { startStandaloneServer } from '@apollo/server/standalone'
 import { resolvers, typeDefs } from './graphql/index.js'
 import connectDatabase from './database/index.js'
 import express from 'express'
 import cookieParser from 'cookie-parser'
+
 import http from 'http'
+import cors from 'cors'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 
@@ -21,37 +23,47 @@ async function startApolloServer() {
 		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 	})
 
-	const { url } = await startStandaloneServer(server, {
-		listen: { port: Number(`${port}`) },
+	// const { url } = await startStandaloneServer(server, {
+	// 	listen: { port: Number(`${port}`) },
 
-		context: async ({ req, res }) => ({
-			db,
-			req,
-			res,
-			cors: {
-				origin: 'http://localhost:3000',
-				credentials: 'include',
-			},
-		}),
-	})
+	// 	context: async ({ req, res }) => ({
+	// 		db,
+	// 		req,
+	// 		res,
+	// 		cors: {
+	// 			origin: 'http://localhost:3000',
+	// 			credentials: 'include',
+	// 		},
+	// 	}),
+	// })
+
+	await server.start()
 
 	app.use(
+		'/',
+		express.json(),
 		cookieParser(process.env.SECRET),
 		expressMiddleware(server, {
-			context: async ({ req, res }) => ({ req, res }),
+			// context: async ({ req, res }) => ({ req, res }),
+			context: async ({ req, res }) => ({
+				db,
+				req,
+				res,
+				cors: {
+					origin: 'http://localhost:3000',
+					credentials: 'include',
+				},
+			}),
 		})
 	)
-	app.get('/', (req, res) => {
-		const viewerId = req.cookies.viewer
-		res.send(viewerId)
-	})
 
-	console.log(
-		`	🚀  Server is running!
-	🎧  Listening on port ${port}
-	📭  Query at ${url}
-	`
-	)
+	app.listen(port, () => {
+		console.log(`
+		🚀  Server is running!
+		🎧  Listening on port ${port}
+		📭  Query at http://localhost:${port}
+		`)
+	})
 }
 
 startApolloServer()
