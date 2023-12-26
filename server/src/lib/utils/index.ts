@@ -6,13 +6,11 @@ export const authorize = async (
 	req: Request
 ): Promise<User | null> => {
 	const token = req.get('X-CSRF-TOKEN')
-	const viewerCookie = await getCookieValue(req.headers.cookie, 'viewer')
-
+	const viewerId = await getCookieValue(req.headers.cookie, 'viewer')
 	const viewer = await db.users.findOne({
-		_id: `${viewerCookie}`,
+		_id: `${viewerId}`,
 		token,
 	})
-
 	return viewer
 }
 
