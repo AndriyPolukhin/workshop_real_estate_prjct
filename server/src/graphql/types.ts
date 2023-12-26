@@ -33,6 +33,7 @@ export type MutationLogInArgs = {
 export type Query = {
   __typename?: 'Query';
   authUrl: Scalars['String']['output'];
+  user: Scalars['String']['output'];
 };
 
 export type Viewer = {
@@ -142,6 +143,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  user?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
 };
 
 export type ViewerResolvers<ContextType = any, ParentType extends ResolversParentTypes['Viewer'] = ResolversParentTypes['Viewer']> = {
