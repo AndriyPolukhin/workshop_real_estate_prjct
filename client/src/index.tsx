@@ -24,7 +24,6 @@ const client = new ApolloClient({
 	cache: new InMemoryCache(),
 	headers: {
 		'X-CSRF-TOKEN': sessionStorage.getItem('token') || '',
-		viewerId: sessionStorage.getItem('viewerId') || '',
 	},
 })
 
