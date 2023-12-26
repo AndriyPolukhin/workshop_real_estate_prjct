@@ -1,7 +1,13 @@
 import { Request } from 'express'
 import { Database, User } from '../../../lib/types'
 import { authorize } from '../../../lib/utils'
-import { UserArgs, UserBookingsArgs, UserBookingsData } from './types'
+import {
+	UserArgs,
+	UserBookingsArgs,
+	UserBookingsData,
+	UserListingsArgs,
+	UserListingsData,
+} from './types'
 
 export const userResolvers = {
 	Query: {
@@ -67,6 +73,31 @@ export const userResolvers = {
 				throw new Error(`Failed to query user bookings: ${error}`)
 			}
 		},
-		listings: () => {},
+		listings: async (
+			user: User,
+			{ limit, page }: UserListingsArgs,
+			{ db }: { db: Database }
+		): Promise<UserListingsData | null> => {
+			try {
+				const data: UserListingsData = {
+					total: 0,
+					result: [],
+				}
+
+				let cursor = db.listings.find({
+					_id: { $in: user.listings },
+				})
+
+				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
+				cursor = cursor.limit(limit)
+
+				data.total = cursor.bufferedCount()
+				data.result = await cursor.toArray()
+
+				return data
+			} catch (error) {
+				throw new Error(`Failed to query user listings: ${error}`)
+			}
+		},
 	},
 }
