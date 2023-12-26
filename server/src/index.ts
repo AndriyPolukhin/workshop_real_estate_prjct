@@ -27,7 +27,6 @@ async function startApolloServer() {
 		express.json(),
 		cookieParser(process.env.SECRET),
 		expressMiddleware(server, {
-			// context: async ({ req, res }) => ({ req, res }),
 			context: async ({ req, res }) => ({
 				db,
 				req,

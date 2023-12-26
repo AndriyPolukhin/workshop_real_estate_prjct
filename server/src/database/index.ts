@@ -6,8 +6,7 @@ const connectDatabase = async (): Promise<Database> => {
 		const client = await MongoClient.connect(`${process.env.MONGO_URI}`)
 
 		const db = client.db('main')
-		console.log(`
-	💽  MongoDB Connected to db: ${db.namespace}`)
+		console.log(`		💽  MongoDB Connected to db: ${db.namespace}`)
 
 		return {
 			bookings: db.collection<Booking>('bookings'),
