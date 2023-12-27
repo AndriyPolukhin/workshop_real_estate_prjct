@@ -78,7 +78,7 @@ export const MenuItems = ({ viewer, setViewer }: Props) => {
 			key: 'avatar',
 			children: [
 				{
-					label: <Link to='/user'>Profile</Link>,
+					label: <Link to={`/user/${viewer.id}`}>Profile</Link>,
 					key: '/user',
 					icon: <UserOutlined style={{ paddingRight: '5px' }} />,
 				},
