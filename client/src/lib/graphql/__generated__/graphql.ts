@@ -98,7 +98,7 @@ export type User = {
   hasWallet: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   income?: Maybe<Scalars['Int']['output']>;
-  listings: Listings;
+  listings?: Maybe<Listings>;
   name: Scalars['String']['output'];
 };
 

@@ -1,6 +1,6 @@
 import { gql } from '../../__generated__'
 
-export const User = gql(`
+export const USER = gql(`
     query User($id: ID!) {
         user(id: $id) {
             id
