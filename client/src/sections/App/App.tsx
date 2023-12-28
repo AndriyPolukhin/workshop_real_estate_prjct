@@ -19,6 +19,7 @@ const initialViewer: Viewer = {
 	didRequest: false,
 }
 interface ViewerType {
+	viewer: Viewer
 	setViewer: (viewer: Viewer) => void
 }
 export const App = () => {
@@ -99,7 +100,7 @@ export const App = () => {
 			>
 				<AppHeader viewer={viewer} setViewer={setViewer} />
 			</Affix>
-			<Outlet context={{ setViewer }} />
+			<Outlet context={{ viewer, setViewer }} />
 		</Layout>
 	)
 }
