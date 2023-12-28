@@ -98,7 +98,7 @@ export type User = {
   hasWallet: Scalars['Boolean']['output'];
   id: Scalars['ID']['output'];
   income?: Maybe<Scalars['Int']['output']>;
-  listings?: Maybe<Listings>;
+  listings: Listings;
   name: Scalars['String']['output'];
 };
 
@@ -281,7 +281,7 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
   hasWallet?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   income?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
-  listings?: Resolver<Maybe<ResolversTypes['Listings']>, ParentType, ContextType, RequireFields<UserListingsArgs, 'limit' | 'page'>>;
+  listings?: Resolver<ResolversTypes['Listings'], ParentType, ContextType, RequireFields<UserListingsArgs, 'limit' | 'page'>>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
