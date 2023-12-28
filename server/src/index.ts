@@ -23,7 +23,7 @@ async function startApolloServer() {
 	await server.start()
 
 	app.use(
-		'/',
+		'/api',
 		express.json(),
 		cookieParser(process.env.SECRET),
 		expressMiddleware(server, {
