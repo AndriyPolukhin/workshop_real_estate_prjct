@@ -1,8 +1,8 @@
 import { ObjectId } from 'mongodb'
 import { Listing } from '../src/lib/types'
 export enum ListingType {
-	APARTMENT,
-	HOUSE,
+	Appartment = 'APPARTMENT',
+	House = 'HOUSE',
 }
 export const listings: Listing[] = [
 	{
@@ -13,7 +13,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-1_exv0tf.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '3210 Scotchmere Dr W, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -31,7 +31,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641351/mock/Toronto/toronto-listing-2_aeg1rw.jpg',
 		host: '5d378db94e84753160e08b55',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '7009 Strawberry Street, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -49,7 +49,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-3_eyftou.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '8110 Rockaway Ave, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -67,7 +67,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-4_ei1ngz.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '9531 Prince Road, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -85,7 +85,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641350/mock/Toronto/toronto-listing-5_vbmepz.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '43 Tallwood Drive, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -103,7 +103,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641350/mock/Toronto/toronto-listing-6_oiqiod.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '12 Morris Ave, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -115,13 +115,13 @@ export const listings: Listing[] = [
 	},
 	{
 		_id: new ObjectId('5d378db94e84753160e08b36'),
-		title: 'Picturesque 2 Story HOUSE - great location',
+		title: 'Picturesque 2 Story House - great location',
 		description:
 			'Beautiful and picturesque 2 story house located only minutes away from the center of Midtown Toronto. Street level parking available at all times. With four beds and three baths, house accomodates up to 6 guests comfortably.',
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-7_p3a5ms.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '12 Morris Ave, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -139,7 +139,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641352/mock/Toronto/toronto-listing-8_awkmrj.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '20 Overlook St, Toronto, ON, CA',
 		country: 'Canada',
 		admin: 'Ontario',
@@ -157,7 +157,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641329/mock/Dubai/dubai-listing-1_znfu2h.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '100 Marina Ave, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -175,7 +175,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641327/mock/Dubai/dubai-listing-2_qc2kos.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '55 Emirates Hills Dr, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -193,7 +193,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641328/mock/Dubai/dubai-listing-3_cumdal.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '400 Jumeirah Beach Dr, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -211,7 +211,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641327/mock/Dubai/dubai-listing-4_olo6kt.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '19 Meadows Ave, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -229,7 +229,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641329/mock/Dubai/dubai-listing-5_r2mxqj.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '291 Crescent Rd, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -247,7 +247,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641329/mock/Dubai/dubai-listing-6_dirave.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '19 Araa Street, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -265,7 +265,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641328/mock/Dubai/dubai-listing-7_vmmeyk.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '20 Marina Ave, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -283,7 +283,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560641331/mock/Dubai/dubai-listing-8_fg5dtb.jpg',
 		host: '5d378db94e84753160e08b58',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '15 Palm Jumeirah St, Dubai, United Arab Emirates',
 		country: 'United Arab Emirates',
 		admin: 'Dubai',
@@ -301,7 +301,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645376/mock/Los%20Angeles/los-angeles-listing-1_aikhx7.jpg',
 		host: '5d378db94e84753160e08b58',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '100 Hollywood Hills Dr, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -319,7 +319,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645375/mock/Los%20Angeles/los-angeles-listing-2_ygm2ai.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '999 Beverly Hills Ave, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -336,7 +336,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645376/mock/Los%20Angeles/los-angeles-listing-3_wtzssz.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '4262 Rainbow Road, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -354,7 +354,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645376/mock/Los%20Angeles/los-angeles-listing-4_nytk33.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '100 Nickel Rd, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -372,7 +372,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645375/mock/Los%20Angeles/los-angeles-listing-5_rll8i2.jpg',
 		host: '5d378db94e84753160e08b58',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '433 Zimmer Lane, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -390,7 +390,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645377/mock/Los%20Angeles/los-angeles-listing-6_unhtji.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '200 Copper Rd, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -408,7 +408,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645376/mock/Los%20Angeles/los-angeles-listing-7_qapmfv.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '301 Hillhaven Dr, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -426,7 +426,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645376/mock/Los%20Angeles/los-angeles-listing-8_q01xt6.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '100 Aviation Crescent, Los Angeles, California',
 		country: 'United States',
 		admin: 'California',
@@ -444,7 +444,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645408/mock/London/london-listing-1_yedylx.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '3807 North Bend River Rd, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
@@ -462,8 +462,8 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645409/mock/London/london-listing-2_mtfogm.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
-		address: '1738 Old HOUSE Dr, London, United Kingdom',
+		type: ListingType.Appartment,
+		address: '1738 Old House Dr, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
 		city: 'London',
@@ -480,7 +480,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645410/mock/London/london-listing-3_hbqxs1.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '82 South Crescent, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
@@ -498,7 +498,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645410/mock/London/london-listing-4_kwnohf.jpg',
 		host: '5d378db94e84753160e08b55',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '200 South Bend River Rd, London, United Kingdom',
 		country: 'United States',
 		admin: 'England',
@@ -516,7 +516,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645408/mock/London/london-listing-5_jwyidl.jpg',
 		host: '5d378db94e84753160e08b55',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '44  Greyfriars Ave, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
@@ -534,7 +534,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645409/mock/London/london-listing-6_dolofv.jpg',
 		host: '5d378db94e84753160e08b57',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '20 Peachfarm Rd, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
@@ -548,11 +548,11 @@ export const listings: Listing[] = [
 		_id: new ObjectId('5d378db94e84753160e08b4e'),
 		title: 'Tranquil, spacious condo apartment',
 		description:
-			'Tranquil, spacious condo apartment with a modern look and feel. APARTMENT accomodates up to 4 guests with 2 beds and 2 baths.',
+			'Tranquil, spacious condo apartment with a modern look and feel. Appartment accomodates up to 4 guests with 2 beds and 2 baths.',
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645409/mock/London/london-listing-7_pejnqb.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '20 Windsor St, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
@@ -570,7 +570,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560645409/mock/London/london-listing-8_hpckw4.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '15 Whitehorse Av, London, United Kingdom',
 		country: 'United Kingdom',
 		admin: 'England',
@@ -588,7 +588,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-1_qzntl4.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '200 Sunnyside Rd, San Fransisco, California',
 		country: 'United States',
 		admin: 'California',
@@ -606,7 +606,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-2_tvjygz.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '102 Parkdale Av, San Fransisco, California',
 		country: 'United States',
 		admin: 'California',
@@ -624,7 +624,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560646219/mock/San%20Fransisco/san-fransisco-listing-3_z7w2jh.jpg',
 		host: '5d378db94e84753160e08b59',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '2 Bridgewater Rd, San Fransisco, California',
 		country: 'United States',
 		admin: 'California',
@@ -642,7 +642,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560646430/mock/Cancun/cancun-listing-1_zihihs.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.HOUSE,
+		type: ListingType.House,
 		address: '100 Punta Nizuc Rd., Cancún, Mexico',
 		country: 'Mexico',
 		admin: 'Quintana Roo',
@@ -660,7 +660,7 @@ export const listings: Listing[] = [
 		image:
 			'https://res.cloudinary.com/tiny-house/image/upload/v1560646289/mock/Cancun/cancun-listing-2_bsocu5.jpg',
 		host: '5d378db94e84753160e08b56',
-		type: ListingType.APARTMENT,
+		type: ListingType.Appartment,
 		address: '100 Punta Nizuc Rd., Cancún, Mexico',
 		country: 'Mexico',
 		admin: 'Quintana Roo',
