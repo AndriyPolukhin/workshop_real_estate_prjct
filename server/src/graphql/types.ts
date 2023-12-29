@@ -54,7 +54,7 @@ export type ListingBookingsArgs = {
 };
 
 export enum ListingType {
-  Apartment = 'APARTMENT',
+  Appartment = 'APPARTMENT',
   House = 'HOUSE'
 }
 
@@ -82,7 +82,13 @@ export type MutationLogInArgs = {
 export type Query = {
   __typename?: 'Query';
   authUrl: Scalars['String']['output'];
+  listing: Listing;
   user: User;
+};
+
+
+export type QueryListingArgs = {
+  id: Scalars['ID']['input'];
 };
 
 
@@ -271,6 +277,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  listing?: Resolver<ResolversTypes['Listing'], ParentType, ContextType, RequireFields<QueryListingArgs, 'id'>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
