@@ -9,8 +9,8 @@ export interface Viewer {
 }
 
 export enum ListingType {
-	APARTMENT,
-	HOUSE,
+	Appartment = 'APPARTMENT',
+	House = 'HOUSE',
 }
 
 export interface BookingsIndexMonth {
@@ -45,6 +45,7 @@ export interface Listing {
 	bookingsIndex: BookingIndex
 	price: number
 	numOfGuests: number
+	authorized?: boolean
 }
 
 export interface User {
