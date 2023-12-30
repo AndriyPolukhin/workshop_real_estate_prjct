@@ -6,6 +6,7 @@ import { USER } from '../../lib/graphql/queries'
 import { Viewer } from '../../lib/types'
 import { Col, Row, Layout } from 'antd'
 import {
+	User as UserType,
 	UserQuery as UserData,
 	UserQueryVariables,
 } from '../../lib/graphql/__generated__/graphql'
@@ -55,7 +56,7 @@ export const User = () => {
 		)
 	}
 
-	const user = data ? data.user : null
+	const user = data ? (data.user as UserType) : null
 	const viewerIsUser = viewer.id === params.id
 
 	const userListings = user ? user.listings : null
