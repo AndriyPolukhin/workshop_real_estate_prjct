@@ -2,12 +2,15 @@ import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import { ErrorBanner, PageSkeleton } from '../../lib/components'
-import { Layout } from 'antd'
+import { Layout, Col, Row } from 'antd'
 import { LISTING } from '../../lib/graphql/queries'
 import {
 	ListingQuery as ListingData,
+	Listing as ListingType,
 	ListingQueryVariables,
 } from '../../lib/graphql/__generated__/graphql'
+
+import { ListingDetails } from './components'
 
 interface MatchParams {
 	id?: string
@@ -45,7 +48,19 @@ export const Listing = () => {
 		)
 	}
 
-	const listing = data ? data.listing : null
+	const listing = data ? (data.listing as ListingType) : null
 	const listingBookings = listing ? listing.bookings : null
-	return <div>Listing</div>
+
+	const listingDetailsElement = listing ? (
+		<ListingDetails listing={listing} />
+	) : null
+	return (
+		<Content style={{ padding: '60px 120px' }}>
+			<Row gutter={24} justify='space-between'>
+				<Col xs={24} lg={14}>
+					{listingDetailsElement}
+				</Col>
+			</Row>
+		</Content>
+	)
 }
