@@ -14,7 +14,6 @@ export const ListingDetails = ({ listing }: Props) => {
 	const { title, description, image, type, address, city, numOfGuests, host } =
 		listing
 
-	console.log({ listing })
 	return (
 		<div style={{ fontSize: '15px', padding: '5px 0' }}>
 			<div
