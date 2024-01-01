@@ -16,6 +16,8 @@ import {
 	ListingCreateBooking,
 } from './components'
 
+import { Dayjs } from 'dayjs'
+
 interface MatchParams {
 	id?: string
 }
@@ -25,6 +27,8 @@ const { Content } = Layout
 export const Listing = () => {
 	const params: MatchParams = useParams()
 	const [bookingsPage, setBookingsPage] = useState(1)
+	const [checkInDate, setCheckInDate] = useState<Dayjs | null>(null)
+	const [checkOutDate, setCheckOutDate] = useState<Dayjs | null>(null)
 	const { data, loading, error } = useQuery<ListingData, ListingQueryVariables>(
 		LISTING,
 		{
@@ -69,7 +73,13 @@ export const Listing = () => {
 	) : null
 
 	const listingCreateBookingElement = listing ? (
-		<ListingCreateBooking price={listing.price} />
+		<ListingCreateBooking
+			price={listing.price}
+			checkInDate={checkInDate}
+			checkOutDate={checkOutDate}
+			setCheckInDate={setCheckInDate}
+			setCheckOutDate={setCheckOutDate}
+		/>
 	) : null
 
 	return (
