@@ -10,7 +10,11 @@ import {
 	ListingQueryVariables,
 } from '../../lib/graphql/__generated__/graphql'
 
-import { ListingDetails, ListingBookings } from './components'
+import {
+	ListingDetails,
+	ListingBookings,
+	ListingCreateBooking,
+} from './components'
 
 interface MatchParams {
 	id?: string
@@ -64,12 +68,19 @@ export const Listing = () => {
 		/>
 	) : null
 
+	const listingCreateBookingElement = listing ? (
+		<ListingCreateBooking price={listing.price} />
+	) : null
+
 	return (
 		<Content style={{ padding: '60px 120px' }}>
 			<Row gutter={24} justify='space-between'>
 				<Col xs={24} lg={14} flex='auto'>
 					{listingDetailsElement}
 					{listingBookingsElement}
+				</Col>
+				<Col xs={24} lg={10}>
+					{listingCreateBookingElement}
 				</Col>
 			</Row>
 		</Content>
