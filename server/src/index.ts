@@ -6,6 +6,7 @@ import connectDatabase from './database/index.js'
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import http from 'http'
+import cors from 'cors'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 
@@ -24,6 +25,10 @@ async function startApolloServer() {
 
 	app.use(
 		'/api',
+		cors<cors.CorsRequest>({
+			origin: [`http://localhost:${port}`, 'https://studio.apollographql.com'],
+			credentials: true,
+		}),
 		express.json(),
 		cookieParser(process.env.SECRET),
 		expressMiddleware(server, {
@@ -31,10 +36,6 @@ async function startApolloServer() {
 				db,
 				req,
 				res,
-				cors: {
-					origin: 'http://localhost:3000',
-					credentials: 'include',
-				},
 			}),
 		})
 	)
