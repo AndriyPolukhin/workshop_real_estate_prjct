@@ -91,7 +91,14 @@ export const userResolvers = {
 				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
 				cursor = cursor.limit(limit)
 
-				data.total = cursor.bufferedCount()
+				data.total = (
+					await db.listings
+						.find({
+							_id: { $in: user.listings },
+						})
+						.toArray()
+				).length
+
 				data.result = await cursor.toArray()
 
 				return data
