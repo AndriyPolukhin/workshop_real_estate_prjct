@@ -64,6 +64,11 @@ export type Listings = {
   total: Scalars['Int']['output'];
 };
 
+export enum ListingsFilter {
+  PriceHighToLow = 'PRICE_HIGH_TO_LOW',
+  PriceLowToHigh = 'PRICE_LOW_TO_HIGH'
+}
+
 export type LogInInput = {
   code: Scalars['String']['input'];
 };
@@ -83,12 +88,20 @@ export type Query = {
   __typename?: 'Query';
   authUrl: Scalars['String']['output'];
   listing: Listing;
+  listings: Listings;
   user: User;
 };
 
 
 export type QueryListingArgs = {
   id: Scalars['ID']['input'];
+};
+
+
+export type QueryListingsArgs = {
+  filter?: InputMaybe<ListingsFilter>;
+  limit: Scalars['Int']['input'];
+  page: Scalars['Int']['input'];
 };
 
 
@@ -208,6 +221,7 @@ export type ResolversTypes = {
   Listing: ResolverTypeWrapper<Listing>;
   ListingType: ListingType;
   Listings: ResolverTypeWrapper<Listings>;
+  ListingsFilter: ListingsFilter;
   LogInInput: LogInInput;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
@@ -278,6 +292,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   authUrl?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   listing?: Resolver<ResolversTypes['Listing'], ParentType, ContextType, RequireFields<QueryListingArgs, 'id'>>;
+  listings?: Resolver<ResolversTypes['Listings'], ParentType, ContextType, RequireFields<QueryListingsArgs, 'limit' | 'page'>>;
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<QueryUserArgs, 'id'>>;
 };
 
