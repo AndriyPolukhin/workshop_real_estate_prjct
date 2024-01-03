@@ -19,6 +19,8 @@ import {
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
 
+import './styles/index.css'
+
 const client = new ApolloClient({
 	uri: '/api', // "http://localhost:9000/api"
 	cache: new InMemoryCache(),

@@ -205,7 +205,8 @@
 }
 .home {
 	padding: 60px 120px;
-	background-image: url(/static/media/map-background.c21df147.jpg);
+	/* background-image: url(/static/media/map-background.c21df147.jpg); */
+	background-image: url('../sections/Home/assets/map-background.jpg');
 	background-repeat: no-repeat;
 	background-position: 10% 0;
 }
