@@ -9,7 +9,7 @@ import {
 	ListingsQueryVariables,
 	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
-import { HomeHero, HomeListings } from './components'
+import { HomeHero, HomeListings, HomeListingsSkeleton } from './components'
 
 import mapBackground from './assets/map-background.jpg'
 import sanFransiscoImage from './assets/san-fransisco.jpg'
@@ -46,7 +46,7 @@ export const Home = () => {
 
 	const renderListingsSection = () => {
 		if (loading) {
-			return 'Loading...'
+			return <HomeListingsSkeleton />
 		}
 
 		if (data) {
