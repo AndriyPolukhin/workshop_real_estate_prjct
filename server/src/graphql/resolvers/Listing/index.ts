@@ -115,7 +115,13 @@ export const listingResolvers = {
 				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
 				cursor = cursor.limit(limit)
 
-				data.total = cursor.bufferedCount()
+				data.total = (
+					await db.bookings
+						.find({
+							_id: { $in: listing.bookings },
+						})
+						.toArray()
+				).length
 				data.result = await cursor.toArray()
 
 				return data
