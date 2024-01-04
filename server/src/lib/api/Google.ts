@@ -67,9 +67,6 @@ export const Google = {
 		if (res.status < 200 || res.status > 299) {
 			throw new Error('faild to geocode address')
 		}
-
-		console.log(res.json.results[0])
-		console.log(res.json.results[0].address_components)
 		return parseAddress(res.json.results[0].address_components)
 	},
 }
