@@ -34,9 +34,11 @@ export type Bookings = {
 export type Listing = {
   __typename?: 'Listing';
   address: Scalars['String']['output'];
+  admin: Scalars['String']['output'];
   bookings?: Maybe<Bookings>;
   bookingsIndex: Scalars['String']['output'];
   city: Scalars['String']['output'];
+  country: Scalars['String']['output'];
   description: Scalars['String']['output'];
   host: User;
   id: Scalars['ID']['output'];
@@ -101,6 +103,7 @@ export type QueryListingArgs = {
 export type QueryListingsArgs = {
   filter?: InputMaybe<ListingsFilter>;
   limit: Scalars['Int']['input'];
+  location?: InputMaybe<Scalars['String']['input']>;
   page: Scalars['Int']['input'];
 };
 
@@ -264,9 +267,11 @@ export type BookingsResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type ListingResolvers<ContextType = any, ParentType extends ResolversParentTypes['Listing'] = ResolversParentTypes['Listing']> = {
   address?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  admin?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   bookings?: Resolver<Maybe<ResolversTypes['Bookings']>, ParentType, ContextType, RequireFields<ListingBookingsArgs, 'limit' | 'page'>>;
   bookingsIndex?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   city?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  country?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   host?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
