@@ -62,6 +62,7 @@ export enum ListingType {
 
 export type Listings = {
   __typename?: 'Listings';
+  region?: Maybe<Scalars['String']['output']>;
   result: Array<Listing>;
   total: Scalars['Int']['output'];
 };
@@ -284,6 +285,7 @@ export type ListingResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type ListingsResolvers<ContextType = any, ParentType extends ResolversParentTypes['Listings'] = ResolversParentTypes['Listings']> = {
+  region?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   result?: Resolver<Array<ResolversTypes['Listing']>, ParentType, ContextType>;
   total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

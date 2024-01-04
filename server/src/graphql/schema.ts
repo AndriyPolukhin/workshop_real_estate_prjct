@@ -39,6 +39,7 @@ export const typeDefs = gql`
 		numOfGuests: Int!
 	}
 	type Listings {
+		region: String
 		total: Int!
 		result: [Listing!]!
 	}

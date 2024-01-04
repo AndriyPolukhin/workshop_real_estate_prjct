@@ -39,7 +39,7 @@
 	"scripts": {
 		"build": "tsc -p ./",
 		"compile": "tsc",
-		"dev": "npm run compile && npx tsx src/index.ts && nodemon ./build/src/index.js",
+		"dev": "npm run generate && npm run compile && npx tsx src/index.ts && nodemon ./build/src/index.js",
 		"start": "npm run compile && nodemon ./build/src/index.js",
 		"seed": "npx tsx temp/seed.ts",
 		"clear": "npx tsx temp/clear.ts",
