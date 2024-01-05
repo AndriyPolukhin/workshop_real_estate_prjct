@@ -1,7 +1,14 @@
 import dotenv from 'dotenv'
 dotenv.config()
 import { google } from 'googleapis'
-import { createClient, AddressComponent } from '@google/maps'
+import {
+	createClient,
+	AddressComponent,
+	AddressType,
+	PlaceDetailsAddressComponentType,
+	PlaceDetailsResult,
+	GeocodingAddressComponentType,
+} from '@google/maps'
 
 /** provide env variables to google auth OAuth2 */
 const auth = new google.auth.OAuth2(
@@ -14,8 +21,12 @@ const maps = createClient({
 	key: `${process.env.G_GEOCODE_KEY}`,
 	Promise,
 })
-type T = {}
-const parseAddress = (addressComponents: AddressComponent<T>[]) => {
+
+const parseAddress = (
+	addressComponents: AddressComponent<
+		AddressType | GeocodingAddressComponentType
+	>[]
+) => {
 	let country = null
 	let admin = null
 	let city = null
