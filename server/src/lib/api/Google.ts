@@ -5,8 +5,6 @@ import {
 	createClient,
 	AddressComponent,
 	AddressType,
-	PlaceDetailsAddressComponentType,
-	PlaceDetailsResult,
 	GeocodingAddressComponentType,
 } from '@google/maps'
 
