@@ -65,7 +65,7 @@ export const listingResolvers = {
 					data.region = `${cityText}${adminText}${country}`
 				}
 
-				let cursor = await db.listings.find({ ...query })
+				let cursor = await db.listings.find(query)
 				const total = (await db.listings.find({}).toArray()).length
 
 				if (filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
