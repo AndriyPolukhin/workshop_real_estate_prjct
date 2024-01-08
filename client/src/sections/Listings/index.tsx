@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { Layout, List, Typography } from 'antd'
 import { ListingCard } from '../../lib/components'
 import { LISTINGS } from '../../lib/graphql/queries'
@@ -9,14 +9,13 @@ import {
 	ListingsQueryVariables,
 	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
-import { Link } from 'react-router-dom'
-
-const PAGE_LIMIT = 8
-const { Content } = Layout
-const { Title, Paragraph, Text } = Typography
+import { ListingsFilters } from './components'
 interface MatchParams {
 	location?: string
 }
+const { Content } = Layout
+const { Title, Paragraph, Text } = Typography
+const PAGE_LIMIT = 8
 export const Listings = () => {
 	const params: MatchParams = useParams()
 	const [filter, setFilter] = useState(ListingsFilter.PriceHighToLow)
@@ -35,20 +34,23 @@ export const Listings = () => {
 
 	const listingsSectionElement =
 		listings && listings.result.length ? (
-			<List
-				grid={{
-					gutter: 8,
-					xs: 1,
-					sm: 2,
-					lg: 4,
-				}}
-				dataSource={listings.result}
-				renderItem={(listing) => (
-					<List.Item>
-						<ListingCard listing={listing} />
-					</List.Item>
-				)}
-			/>
+			<div>
+				<ListingsFilters filter={filter} setFilter={setFilter} />
+				<List
+					grid={{
+						gutter: 8,
+						xs: 1,
+						sm: 2,
+						lg: 4,
+					}}
+					dataSource={listings.result}
+					renderItem={(listing) => (
+						<List.Item>
+							<ListingCard listing={listing} />
+						</List.Item>
+					)}
+				/>
+			</div>
 		) : (
 			<div>
 				<Paragraph>
