@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
 import { Layout, List, Typography } from 'antd'
@@ -6,8 +7,8 @@ import { LISTINGS } from '../../lib/graphql/queries'
 import {
 	ListingsQuery as ListingsData,
 	ListingsQueryVariables,
+	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
-import { ListingsFilter } from '../../lib/graphql/__generated__/graphql'
 import { Link } from 'react-router-dom'
 
 const PAGE_LIMIT = 8
@@ -18,13 +19,14 @@ interface MatchParams {
 }
 export const Listings = () => {
 	const params: MatchParams = useParams()
+	const [filter, setFilter] = useState(ListingsFilter.PriceHighToLow)
 
 	const { data } = useQuery<ListingsData, ListingsQueryVariables>(LISTINGS, {
 		variables: {
-			filter: ListingsFilter.PriceHighToLow,
+			location: params.location || '',
+			filter,
 			limit: PAGE_LIMIT,
 			page: 1,
-			location: params.location || '',
 		},
 	})
 
@@ -50,7 +52,7 @@ export const Listings = () => {
 		) : (
 			<div>
 				<Paragraph>
-					It appears that no listings have yet been cr4eated for{' '}
+					It appears that no listings have yet been created for{' '}
 					<Text mark>"{listingsRegion}"</Text>
 				</Paragraph>
 				<Paragraph>
@@ -65,6 +67,7 @@ export const Listings = () => {
 			Region for "{listingsRegion}"
 		</Title>
 	) : null
+
 	return (
 		<Content>
 			{listingsRegionElement}
