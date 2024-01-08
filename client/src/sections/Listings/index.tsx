@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
-import { Layout, List, Typography } from 'antd'
+import { Affix, Layout, List, Typography } from 'antd'
 import { ListingCard } from '../../lib/components'
 import { LISTINGS } from '../../lib/graphql/queries'
 import {
@@ -9,7 +9,7 @@ import {
 	ListingsQueryVariables,
 	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
-import { ListingsFilters } from './components'
+import { ListingsFilters, ListingsPagination } from './components'
 interface MatchParams {
 	location?: string
 }
@@ -19,13 +19,14 @@ const PAGE_LIMIT = 8
 export const Listings = () => {
 	const params: MatchParams = useParams()
 	const [filter, setFilter] = useState(ListingsFilter.PriceHighToLow)
+	const [page, setPage] = useState(1)
 
 	const { data } = useQuery<ListingsData, ListingsQueryVariables>(LISTINGS, {
 		variables: {
 			location: params.location || '',
 			filter,
 			limit: PAGE_LIMIT,
-			page: 1,
+			page,
 		},
 	})
 
@@ -35,7 +36,15 @@ export const Listings = () => {
 	const listingsSectionElement =
 		listings && listings.result.length ? (
 			<div>
-				<ListingsFilters filter={filter} setFilter={setFilter} />
+				<Affix offsetTop={64}>
+					<ListingsPagination
+						total={listings.total}
+						page={page}
+						limit={PAGE_LIMIT}
+						setPage={setPage}
+					/>
+					<ListingsFilters filter={filter} setFilter={setFilter} />
+				</Affix>
 				<List
 					grid={{
 						gutter: 8,
