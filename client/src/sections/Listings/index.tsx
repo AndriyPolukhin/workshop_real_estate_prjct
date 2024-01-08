@@ -2,14 +2,18 @@ import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useParams, Link } from 'react-router-dom'
 import { Affix, Layout, List, Typography } from 'antd'
-import { ListingCard } from '../../lib/components'
+import { ListingCard, ErrorBanner } from '../../lib/components'
 import { LISTINGS } from '../../lib/graphql/queries'
 import {
 	ListingsQuery as ListingsData,
 	ListingsQueryVariables,
 	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
-import { ListingsFilters, ListingsPagination } from './components'
+import {
+	ListingsFilters,
+	ListingsPagination,
+	ListingsSkeleton,
+} from './components'
 interface MatchParams {
 	location?: string
 }
@@ -21,7 +25,10 @@ export const Listings = () => {
 	const [filter, setFilter] = useState(ListingsFilter.PriceHighToLow)
 	const [page, setPage] = useState(1)
 
-	const { data } = useQuery<ListingsData, ListingsQueryVariables>(LISTINGS, {
+	const { data, loading, error } = useQuery<
+		ListingsData,
+		ListingsQueryVariables
+	>(LISTINGS, {
 		variables: {
 			location: params.location || '',
 			filter,
@@ -29,6 +36,22 @@ export const Listings = () => {
 			page,
 		},
 	})
+
+	if (loading) {
+		return (
+			<Content className='listings'>
+				<ListingsSkeleton />
+			</Content>
+		)
+	}
+
+	if (error) {
+		return (
+			<Content className='listings'>
+				<ErrorBanner description="We couldn't find anything matching your search or have encountered an error. If you're searching for a unique location, try searching again with more common keywords" />
+			</Content>
+		)
+	}
 
 	const listings = data ? data.listings : null
 	const listingsRegion = listings ? listings.region : null
