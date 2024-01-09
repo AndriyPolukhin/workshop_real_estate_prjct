@@ -54,23 +54,9 @@ export const App = () => {
 
 	if (!viewer.didRequest && !error) {
 		return (
-			<Layout
-				style={{
-					height: '100%',
-					background: '#fff',
-					display: 'flex',
-				}}
-			>
+			<Layout id='app'>
 				<AppHeaderSkeleton />
-				<div
-					style={{
-						height: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}
-				>
+				<div className='app-skeleton__spin-section'>
 					<Spin size='large' />
 				</div>
 			</Layout>
@@ -83,21 +69,9 @@ export const App = () => {
 		) : null
 
 	return (
-		<Layout
-			id='app'
-			style={{
-				position: 'relative',
-				background: '#fff',
-				minHeight: '100vh',
-			}}
-		>
+		<Layout id='app'>
 			{logInErrorBannerElement}
-			<Affix
-				offsetTop={0}
-				style={{
-					zIndex: 99,
-				}}
-			>
+			<Affix offsetTop={0} className='app__affix-header'>
 				<AppHeader viewer={viewer} setViewer={setViewer} />
 			</Affix>
 			<Outlet context={{ viewer, setViewer }} />
