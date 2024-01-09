@@ -66,7 +66,6 @@ export const listingResolvers = {
 				}
 
 				let cursor = await db.listings.find(query)
-				const total = (await db.listings.find({}).toArray()).length
 
 				if (filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
 					cursor = cursor.sort({
@@ -83,7 +82,7 @@ export const listingResolvers = {
 				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
 				cursor = cursor.limit(limit)
 
-				data.total = total
+				data.total = (await db.listings.find(query).toArray()).length
 				data.result = await cursor.toArray()
 
 				return data

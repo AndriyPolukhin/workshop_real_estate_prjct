@@ -84,7 +84,7 @@ export const userResolvers = {
 					result: [],
 				}
 
-				let cursor = db.listings.find({
+				let cursor = await db.listings.find({
 					_id: { $in: user.listings },
 				})
 
