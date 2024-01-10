@@ -27,17 +27,21 @@ export const User = () => {
 	const { viewer }: Props = useViewer()
 	const [listingsPage, setListingsPage] = useState(1)
 	const [bookingsPage, setBookingsPage] = useState(1)
-	const { data, loading, error } = useQuery<UserData, UserQueryVariables>(
-		USER,
-		{
-			variables: {
-				id: params.id || '',
-				bookingsPage,
-				listingsPage,
-				limit: PAGE_LIMIT,
-			},
-		}
-	)
+	const { data, loading, error, refetch } = useQuery<
+		UserData,
+		UserQueryVariables
+	>(USER, {
+		variables: {
+			id: params.id || '',
+			bookingsPage,
+			listingsPage,
+			limit: PAGE_LIMIT,
+		},
+	})
+
+	const handleUserRefetch = async () => {
+		await refetch()
+	}
 
 	const stripeError = new URL(window.location.href).searchParams.get(
 		'stripe_error'
@@ -70,7 +74,11 @@ export const User = () => {
 	const userBookings = user ? user.bookings : null
 
 	const userProfileElement = user ? (
-		<UserProfile user={user} viewerIsUser={viewerIsUser} />
+		<UserProfile
+			user={user}
+			viewerIsUser={viewerIsUser}
+			handleUserRefetch={handleUserRefetch}
+		/>
 	) : null
 
 	const userListingsElement = userListings ? (

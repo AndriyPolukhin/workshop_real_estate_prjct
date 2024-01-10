@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n    mutation ConnectStripe($input: ConnectStripeInput!) {\n        connectStripe(input: $input) {\n            hasWallet\n        }\n    }\n": types.ConnectStripeDocument,
+    "\n    mutation DisconnectStripe {\n        disconnectStripe {\n            hasWallet\n        }\n    }\n": types.DisconnectStripeDocument,
     "\n    mutation LogIn($input: LogInInput) {\n       logIn(input: $input) {\n        id\n        token\n        avatar\n        hasWallet\n        didRequest\n       }\n    }\n": types.LogInDocument,
     "\n    mutation LogOut {\n       logOut {\n        id\n        token\n        avatar\n        hasWallet\n        didRequest\n       }\n    }\n": types.LogOutDocument,
     "\n    query AuthUrl {\n        authUrl\n    }\n": types.AuthUrlDocument,
@@ -40,6 +41,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    mutation ConnectStripe($input: ConnectStripeInput!) {\n        connectStripe(input: $input) {\n            hasWallet\n        }\n    }\n"): (typeof documents)["\n    mutation ConnectStripe($input: ConnectStripeInput!) {\n        connectStripe(input: $input) {\n            hasWallet\n        }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation DisconnectStripe {\n        disconnectStripe {\n            hasWallet\n        }\n    }\n"): (typeof documents)["\n    mutation DisconnectStripe {\n        disconnectStripe {\n            hasWallet\n        }\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
