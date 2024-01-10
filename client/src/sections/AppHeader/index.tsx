@@ -1,12 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Layout, Input } from 'antd'
-import {
-	Link,
-	useLocation,
-	useNavigate,
-	useNavigation,
-	useParams,
-} from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import logo from './assets/google_logo.jpg'
 import { MenuItems } from './components/MenuItems'
 import { Viewer } from '../../lib/types'
@@ -36,7 +30,7 @@ export const AppHeader = ({ viewer, setViewer }: Props) => {
 			setSearch(location)
 			return
 		}
-	}, [location])
+	}, [location, pathname])
 
 	const onSearch = (value: string) => {
 		const trimmedValue = value.trim()
