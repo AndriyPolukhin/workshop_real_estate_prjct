@@ -15,6 +15,7 @@ import {
 	Login,
 	NotFound,
 	User,
+	Stripe,
 } from './sections'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
@@ -38,6 +39,7 @@ const router = createBrowserRouter(
 			<Route path='/listing/:id' element={<Listing />} />
 			<Route path='/listings/:location?' element={<Listings />} />
 			<Route path='/login' element={<Login />} />
+			<Route path='/stripe' element={<Stripe />} />
 			<Route path='/user/:id' element={<User />} />
 			<Route path='*' element={<NotFound />} />
 		</Route>
