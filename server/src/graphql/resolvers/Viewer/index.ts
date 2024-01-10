@@ -191,6 +191,7 @@ export const viewerResolvers = {
 				}
 
 				const wallet = await Stripe.connect(code)
+
 				if (!wallet) {
 					throw new Error('stripe grant error')
 				}
