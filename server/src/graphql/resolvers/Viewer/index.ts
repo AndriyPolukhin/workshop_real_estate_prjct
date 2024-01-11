@@ -68,7 +68,6 @@ const logInViaGoogle = async (
 
 	let viewer = updateRes
 
-	// console.log('[resolvers.Viewer] after update: ', viewer)
 	if (!viewer) {
 		const insertResult = await db.users.insertOne({
 			_id: userId,
@@ -161,7 +160,6 @@ export const viewerResolvers = {
 				}
 			} catch (error) {
 				console.info('resolver.Viewer: Mutation.logIn : triggered error')
-				// console.log({ error })
 			}
 		},
 		logOut: (

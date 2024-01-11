@@ -36,7 +36,6 @@ export const Login: React.FC = () => {
 		useMutation<LogInData, LogInMutationVariables>(LOG_IN, {
 			onCompleted: (data) => {
 				if (data && data.logIn) {
-					// console.log('Retrieved user data at data.logIn:', data.logIn)
 					setViewer({
 						id: data.logIn.id || null,
 						token: data.logIn.token || null,

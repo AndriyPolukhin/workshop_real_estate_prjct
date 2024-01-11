@@ -20,16 +20,16 @@ interface Props {
 export const Stripe = () => {
 	const { viewer, setViewer }: Props = useViewer()
 
-	if (!viewer) {
-		setViewer({
-			avatar:
-				'https://lh3.googleusercontent.com/a/ACg8ocKrSNP4k-xWHhuRMk-akKpfsV6fZunS_njnbuUeUXizzsyL=s100',
-			didRequest: true,
-			hasWallet: false,
-			id: '103587337824918773640',
-			token: 'f48b6aac5032f8edff85b7a8a41a0288',
-		})
-	}
+	// if (!viewer) {
+	// 	setViewer({
+	// 		avatar:
+	// 			'https://lh3.googleusercontent.com/a/ACg8ocKrSNP4k-xWHhuRMk-akKpfsV6fZunS_njnbuUeUXizzsyL=s100',
+	// 		didRequest: true,
+	// 		hasWallet: false,
+	// 		id: '103587337824918773640',
+	// 		token: 'f48b6aac5032f8edff85b7a8a41a0288',
+	// 	})
+	// }
 
 	const navigate = useNavigate()
 	const redirectToUserPage = (
