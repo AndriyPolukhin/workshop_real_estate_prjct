@@ -1,7 +1,8 @@
 import { Request } from 'express'
 import { ObjectId } from 'mongodb'
 import { Google } from '../../../lib/api'
-import { Listing, Database, User, ListingType } from '../../../lib/types'
+import { Listing, Database, User } from '../../../lib/types'
+
 import { authorize } from '../../../lib/utils'
 import {
 	ListingArgs,
@@ -14,6 +15,7 @@ import {
 	HostListingInput,
 	HostListingArgs,
 } from './types'
+import { ListingType } from '../../types'
 
 const verifyHostListingInput = ({
 	title,

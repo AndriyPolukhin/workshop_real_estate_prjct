@@ -35,6 +35,16 @@ export type ConnectStripeInput = {
   code: Scalars['String']['input'];
 };
 
+export type HostListingInput = {
+  address: Scalars['String']['input'];
+  description: Scalars['String']['input'];
+  image: Scalars['String']['input'];
+  numOfGuests: Scalars['Int']['input'];
+  price: Scalars['Int']['input'];
+  title: Scalars['String']['input'];
+  type: ListingType;
+};
+
 export type Listing = {
   __typename?: 'Listing';
   address: Scalars['String']['output'];
@@ -92,6 +102,11 @@ export type Mutation = {
 
 export type MutationConnectStripeArgs = {
   input: ConnectStripeInput;
+};
+
+
+export type MutationHostListingArgs = {
+  input: HostListingInput;
 };
 
 
@@ -233,6 +248,7 @@ export type ResolversTypes = {
   Bookings: ResolverTypeWrapper<Bookings>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ConnectStripeInput: ConnectStripeInput;
+  HostListingInput: HostListingInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   Listing: ResolverTypeWrapper<Listing>;
@@ -253,6 +269,7 @@ export type ResolversParentTypes = {
   Bookings: Bookings;
   Boolean: Scalars['Boolean']['output'];
   ConnectStripeInput: ConnectStripeInput;
+  HostListingInput: HostListingInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
   Listing: Listing;
@@ -308,7 +325,7 @@ export type ListingsResolvers<ContextType = any, ParentType extends ResolversPar
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   connectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, RequireFields<MutationConnectStripeArgs, 'input'>>;
   disconnectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
-  hostListing?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  hostListing?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationHostListingArgs, 'input'>>;
   logIn?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, Partial<MutationLogInArgs>>;
   logOut?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
 };
