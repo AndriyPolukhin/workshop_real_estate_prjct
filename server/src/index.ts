@@ -29,7 +29,7 @@ async function startApolloServer() {
 			origin: [`http://localhost:${port}`, 'https://studio.apollographql.com'],
 			credentials: true,
 		}),
-		express.json(),
+		express.json({ limit: '2mb' }),
 		cookieParser(process.env.SECRET),
 		expressMiddleware(server, {
 			context: async ({ req, res }) => ({
