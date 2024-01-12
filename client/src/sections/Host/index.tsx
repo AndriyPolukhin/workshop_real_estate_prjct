@@ -39,6 +39,7 @@ interface Props {
 	viewer: Viewer
 }
 export const Host = () => {
+	const navigate = useNavigate()
 	const [imageLoading, setImageLoading] = useState(false)
 	const [imageBase64Value, setImageBase64Value] = useState<string | null>(null)
 	const handleImageUpload = (info: UploadChangeParam<UploadFile>) => {
@@ -57,7 +58,6 @@ export const Host = () => {
 		}
 	}
 
-	const navigate = useNavigate()
 	const redirectToHostListingPage = (id: string | null | undefined) => {
 		if (id) {
 			return navigate(`/listing/${id}`)
