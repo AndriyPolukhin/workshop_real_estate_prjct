@@ -94,7 +94,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   connectStripe: Viewer;
   disconnectStripe: Viewer;
-  hostListing: Scalars['String']['output'];
+  hostListing: Listing;
   logIn: Viewer;
   logOut: Viewer;
 };
@@ -325,7 +325,7 @@ export type ListingsResolvers<ContextType = any, ParentType extends ResolversPar
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   connectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, RequireFields<MutationConnectStripeArgs, 'input'>>;
   disconnectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
-  hostListing?: Resolver<ResolversTypes['String'], ParentType, ContextType, RequireFields<MutationHostListingArgs, 'input'>>;
+  hostListing?: Resolver<ResolversTypes['Listing'], ParentType, ContextType, RequireFields<MutationHostListingArgs, 'input'>>;
   logIn?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, Partial<MutationLogInArgs>>;
   logOut?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
 };
