@@ -265,7 +265,9 @@
 	padding-bottom: 20px;
 }
 
-.host__form-title.ant-typography {
+.host__form-title.ant-typography,
+h3.ant-typography.host__form-title,
+h4.ant-typography.host__form-title {
 	color: #1d226c;
 	margin-bottom: 5px;
 }
