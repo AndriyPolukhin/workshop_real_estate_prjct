@@ -5,6 +5,7 @@
 		"@apollo/server": "^4.9.5",
 		"@google/maps": "^1.1.3",
 		"apollo-server-express": "^3.13.0",
+		"cloudinary": "^1.41.2",
 		"cookie-parser": "^1.4.6",
 		"express": "^4.18.2",
 		"googleapis": "^129.0.0",
