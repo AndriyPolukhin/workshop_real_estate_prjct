@@ -1,6 +1,11 @@
 import { Database, Booking, Listing } from '../../../lib/types'
 
 export const bookingResolvers = {
+	Mutation: {
+		createBooking: () => {
+			return 'Mutation.createBooking'
+		},
+	},
 	Booking: {
 		id: (booking: Booking): string => {
 			return booking._id.toString()

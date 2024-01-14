@@ -93,6 +93,7 @@ export type LogInInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   connectStripe: Viewer;
+  createBooking: Scalars['String']['output'];
   disconnectStripe: Viewer;
   hostListing: Listing;
   logIn: Viewer;
@@ -324,6 +325,7 @@ export type ListingsResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   connectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, RequireFields<MutationConnectStripeArgs, 'input'>>;
+  createBooking?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   disconnectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
   hostListing?: Resolver<ResolversTypes['Listing'], ParentType, ContextType, RequireFields<MutationHostListingArgs, 'input'>>;
   logIn?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, Partial<MutationLogInArgs>>;
