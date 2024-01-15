@@ -1,5 +1,11 @@
 import { Request } from 'express'
-import { Database, Booking, Listing, BookingIndex } from '../../../lib/types'
+import {
+	Database,
+	Booking,
+	Listing,
+	BookingIndex,
+	User,
+} from '../../../lib/types'
 import { CreateBookingsArgs } from './types'
 import { authorize } from '../../../lib/utils'
 import { Stripe } from '../../../lib/api'
@@ -154,6 +160,13 @@ export const bookingResolvers = {
 			{ db }: { db: Database }
 		): Promise<Listing | null> => {
 			return await db.listings.findOne({ _id: booking.listing })
+		},
+		tenant: async (
+			booking: Booking,
+			_args: {},
+			{ db }: { db: Database }
+		): Promise<User | null> => {
+			return await db.users.findOne({ _id: booking.tenant })
 		},
 	},
 }

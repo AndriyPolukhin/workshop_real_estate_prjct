@@ -35,6 +35,13 @@ export type ConnectStripeInput = {
   code: Scalars['String']['input'];
 };
 
+export type CreateBookingInput = {
+  checkIn: Scalars['String']['input'];
+  checkOut: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  source: Scalars['String']['input'];
+};
+
 export type HostListingInput = {
   address: Scalars['String']['input'];
   description: Scalars['String']['input'];
@@ -93,7 +100,7 @@ export type LogInInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   connectStripe: Viewer;
-  createBooking: Scalars['String']['output'];
+  createBooking: Booking;
   disconnectStripe: Viewer;
   hostListing: Listing;
   logIn: Viewer;
@@ -103,6 +110,11 @@ export type Mutation = {
 
 export type MutationConnectStripeArgs = {
   input: ConnectStripeInput;
+};
+
+
+export type MutationCreateBookingArgs = {
+  input: CreateBookingInput;
 };
 
 
@@ -249,6 +261,7 @@ export type ResolversTypes = {
   Bookings: ResolverTypeWrapper<Bookings>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   ConnectStripeInput: ConnectStripeInput;
+  CreateBookingInput: CreateBookingInput;
   HostListingInput: HostListingInput;
   ID: ResolverTypeWrapper<Scalars['ID']['output']>;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
@@ -270,6 +283,7 @@ export type ResolversParentTypes = {
   Bookings: Bookings;
   Boolean: Scalars['Boolean']['output'];
   ConnectStripeInput: ConnectStripeInput;
+  CreateBookingInput: CreateBookingInput;
   HostListingInput: HostListingInput;
   ID: Scalars['ID']['output'];
   Int: Scalars['Int']['output'];
@@ -325,7 +339,7 @@ export type ListingsResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   connectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, RequireFields<MutationConnectStripeArgs, 'input'>>;
-  createBooking?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  createBooking?: Resolver<ResolversTypes['Booking'], ParentType, ContextType, RequireFields<MutationCreateBookingArgs, 'input'>>;
   disconnectStripe?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType>;
   hostListing?: Resolver<ResolversTypes['Listing'], ParentType, ContextType, RequireFields<MutationHostListingArgs, 'input'>>;
   logIn?: Resolver<ResolversTypes['Viewer'], ParentType, ContextType, Partial<MutationLogInArgs>>;
