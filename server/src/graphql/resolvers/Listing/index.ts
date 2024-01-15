@@ -59,7 +59,7 @@ export const listingResolvers = {
 
 				return listing
 			} catch (error) {
-				throw new Error(`Failed to query listing: $ {error}`)
+				throw new Error(`Failed to query listing: ${error}`)
 			}
 		},
 		listings: async (
