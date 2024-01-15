@@ -35,6 +35,13 @@ export type ConnectStripeInput = {
   code: Scalars['String']['input'];
 };
 
+export type CreateBookingInput = {
+  checkIn: Scalars['String']['input'];
+  checkOut: Scalars['String']['input'];
+  id: Scalars['ID']['input'];
+  source: Scalars['String']['input'];
+};
+
 export type HostListingInput = {
   address: Scalars['String']['input'];
   description: Scalars['String']['input'];
@@ -93,6 +100,7 @@ export type LogInInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   connectStripe: Viewer;
+  createBooking: Booking;
   disconnectStripe: Viewer;
   hostListing: Listing;
   logIn: Viewer;
@@ -102,6 +110,11 @@ export type Mutation = {
 
 export type MutationConnectStripeArgs = {
   input: ConnectStripeInput;
+};
+
+
+export type MutationCreateBookingArgs = {
+  input: CreateBookingInput;
 };
 
 
