@@ -14,6 +14,7 @@ import {
 	ListingDetails,
 	ListingBookings,
 	ListingCreateBooking,
+	ListingCreateBookingModal,
 } from './components'
 
 import { Dayjs } from 'dayjs'
@@ -29,6 +30,7 @@ export const Listing = () => {
 	const [bookingsPage, setBookingsPage] = useState(1)
 	const [checkInDate, setCheckInDate] = useState<Dayjs | null>(null)
 	const [checkOutDate, setCheckOutDate] = useState<Dayjs | null>(null)
+	const [modalVisible, setModalVisible] = useState(false)
 	const { data, loading, error } = useQuery<ListingData, ListingQueryVariables>(
 		LISTING,
 		{
@@ -81,8 +83,20 @@ export const Listing = () => {
 			checkOutDate={checkOutDate}
 			setCheckInDate={setCheckInDate}
 			setCheckOutDate={setCheckOutDate}
+			setModalVisible={setModalVisible}
 		/>
 	) : null
+
+	const listingCreateBookingModalElement =
+		listing && checkInDate && checkOutDate ? (
+			<ListingCreateBookingModal
+				price={listing.price}
+				checkInDate={checkInDate}
+				checkOutDate={checkOutDate}
+				modalVisible={modalVisible}
+				setModalVisible={setModalVisible}
+			/>
+		) : null
 
 	return (
 		<Content style={{ padding: '60px 120px' }}>
@@ -95,6 +109,7 @@ export const Listing = () => {
 					{listingCreateBookingElement}
 				</Col>
 			</Row>
+			{listingCreateBookingModalElement}
 		</Content>
 	)
 }

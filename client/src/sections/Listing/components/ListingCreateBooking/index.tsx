@@ -14,9 +14,10 @@ interface Props {
 	price: number
 	bookingsIndex: Listing['bookingsIndex']
 	checkInDate: Dayjs | null
-	setCheckInDate: (checkInDate: Dayjs | null) => void
 	checkOutDate: Dayjs | null
+	setCheckInDate: (checkInDate: Dayjs | null) => void
 	setCheckOutDate: (checkOutDate: Dayjs | null) => void
+	setModalVisible: (modalVisible: boolean) => void
 }
 
 export const ListingCreateBooking = ({
@@ -27,6 +28,7 @@ export const ListingCreateBooking = ({
 	setCheckInDate,
 	checkOutDate,
 	setCheckOutDate,
+	setModalVisible,
 }: Props) => {
 	const { viewer }: ViewerProps = useViewer()
 
@@ -136,6 +138,7 @@ export const ListingCreateBooking = ({
 					size='large'
 					type='primary'
 					style={listingBookingCardCTA}
+					onClick={() => setModalVisible(true)}
 				>
 					Request to book!
 				</Button>
