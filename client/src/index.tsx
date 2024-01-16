@@ -19,6 +19,8 @@ import {
 } from './sections'
 import { StyleProvider } from '@ant-design/cssinjs'
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client'
+import { Elements } from '@stripe/react-stripe-js'
+import { loadStripe } from '@stripe/stripe-js'
 
 import './styles/index.css'
 
@@ -29,6 +31,8 @@ const client = new ApolloClient({
 		'X-CSRF-TOKEN': sessionStorage.getItem('token') || '',
 	},
 })
+
+const stripePromise = loadStripe(`${process.env.REACT_APP_S_PUBLISHABLE_KEY}`)
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -51,7 +55,9 @@ root.render(
 	<React.StrictMode>
 		<ApolloProvider client={client}>
 			<StyleProvider hashPriority='high'>
-				<RouterProvider router={router} />
+				<Elements stripe={stripePromise}>
+					<RouterProvider router={router} />
+				</Elements>
 			</StyleProvider>
 		</ApolloProvider>
 	</React.StrictMode>
