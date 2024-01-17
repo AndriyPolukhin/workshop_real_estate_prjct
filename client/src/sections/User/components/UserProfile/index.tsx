@@ -15,7 +15,7 @@ import { useViewer } from '../../../App'
 interface Props {
 	user: UserData
 	viewerIsUser: boolean
-	handleUserRefetch: () => void
+	handleUserRefetch: () => Promise<void>
 }
 
 interface ViewerProps {
