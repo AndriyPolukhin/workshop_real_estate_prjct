@@ -19,18 +19,6 @@ interface Props {
 
 export const Stripe = () => {
 	const { viewer, setViewer }: Props = useViewer()
-
-	// if (!viewer) {
-	// 	setViewer({
-	// 		avatar:
-	// 			'https://lh3.googleusercontent.com/a/ACg8ocKrSNP4k-xWHhuRMk-akKpfsV6fZunS_njnbuUeUXizzsyL=s100',
-	// 		didRequest: true,
-	// 		hasWallet: false,
-	// 		id: '103587337824918773640',
-	// 		token: 'f48b6aac5032f8edff85b7a8a41a0288',
-	// 	})
-	// }
-
 	const navigate = useNavigate()
 	const redirectToUserPage = (
 		id: string | null | undefined,
@@ -50,10 +38,6 @@ export const Stripe = () => {
 	>(CONNECT_STRIPE, {
 		onCompleted: (data) => {
 			if (data && data.connectStripe) {
-				// setViewer({
-				// 	...viewer,
-				// 	hasWallet: data.connectStripe.hasWallet || false,
-				// })
 				displaySuccessNotification(
 					"You've successfully connected your Stripe Account!",
 					'You can now begin to create listings in the Host page.'
