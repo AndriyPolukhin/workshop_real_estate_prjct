@@ -1,4 +1,9 @@
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
+import {
+	CardElement,
+	PaymentElement,
+	useStripe,
+	useElements,
+} from '@stripe/react-stripe-js'
 import { Modal, Button, Divider, Typography } from 'antd'
 import { KeyOutlined } from '@ant-design/icons'
 import { Dayjs } from 'dayjs'
@@ -20,8 +25,29 @@ export const ListingCreateBookingModal = ({
 	modalVisible,
 	setModalVisible,
 }: Props) => {
+	const stripe = useStripe()
+	const elements = useElements()
+
 	const daysBooked = checkOutDate.diff(checkInDate, 'days') + 1
 	const listingPrice = price * daysBooked
+
+	const handleCreateBooking = async (event: { preventDefault: () => void }) => {
+		event.preventDefault()
+		if (!stripe || !elements) {
+			console.log('Stripe.js has not yet loaded.')
+			return
+		}
+		console.log('Stripe.js is loaded')
+		console.log(stripe)
+		const result = await stripe.confirmPayment({
+			//`Elements` instance that was used to create the Payment Element
+			elements,
+			confirmParams: {
+				return_url: 'https://example.com/order/123/complete',
+			},
+		})
+		console.log(result)
+	}
 
 	return (
 		<Modal
@@ -65,10 +91,14 @@ export const ListingCreateBookingModal = ({
 
 				<Divider />
 				<div className='listing-booking-modal__stripe-card-section'>
+					<PaymentElement className='listing_booking-modal__stripe-card' />
+
+					<Divider />
 					<Button
 						type='primary'
 						size='large'
 						className='listing-booking-modal__cta'
+						onClick={handleCreateBooking}
 					>
 						Book
 					</Button>
