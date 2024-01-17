@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n    mutation ConnectStripe($input: ConnectStripeInput!) {\n        connectStripe(input: $input) {\n            hasWallet\n        }\n    }\n": types.ConnectStripeDocument,
+    "\n    mutation CreateBooking($input: CreateBookingInput!) {\n        createBooking(input: $input) {\n            id\n        }\n    }\n": types.CreateBookingDocument,
     "\n    mutation DisconnectStripe {\n        disconnectStripe {\n            hasWallet\n        }\n    }\n": types.DisconnectStripeDocument,
     "\n    mutation HostListing($input: HostListingInput!) {\n        hostListing(input: $input) {\n            id\n        }\n    }\n": types.HostListingDocument,
     "\n    mutation LogIn($input: LogInInput) {\n       logIn(input: $input) {\n        id\n        token\n        avatar\n        hasWallet\n        didRequest\n       }\n    }\n": types.LogInDocument,
@@ -42,6 +43,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n    mutation ConnectStripe($input: ConnectStripeInput!) {\n        connectStripe(input: $input) {\n            hasWallet\n        }\n    }\n"): (typeof documents)["\n    mutation ConnectStripe($input: ConnectStripeInput!) {\n        connectStripe(input: $input) {\n            hasWallet\n        }\n    }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n    mutation CreateBooking($input: CreateBookingInput!) {\n        createBooking(input: $input) {\n            id\n        }\n    }\n"): (typeof documents)["\n    mutation CreateBooking($input: CreateBookingInput!) {\n        createBooking(input: $input) {\n            id\n        }\n    }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

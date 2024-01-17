@@ -31,16 +31,26 @@ export const Listing = () => {
 	const [checkInDate, setCheckInDate] = useState<Dayjs | null>(null)
 	const [checkOutDate, setCheckOutDate] = useState<Dayjs | null>(null)
 	const [modalVisible, setModalVisible] = useState(false)
-	const { data, loading, error } = useQuery<ListingData, ListingQueryVariables>(
-		LISTING,
-		{
-			variables: {
-				id: params.id || '',
-				bookingsPage,
-				limit: PAGE_LIMIT,
-			},
-		}
-	)
+	const { data, loading, error, refetch } = useQuery<
+		ListingData,
+		ListingQueryVariables
+	>(LISTING, {
+		variables: {
+			id: params.id || '',
+			bookingsPage,
+			limit: PAGE_LIMIT,
+		},
+	})
+
+	const clearBookingData = () => {
+		setModalVisible(false)
+		setCheckInDate(null)
+		setCheckOutDate(null)
+	}
+
+	const handleListingRefetch = async () => {
+		await refetch()
+	}
 
 	if (loading) {
 		return (
@@ -90,11 +100,14 @@ export const Listing = () => {
 	const listingCreateBookingModalElement =
 		listing && checkInDate && checkOutDate ? (
 			<ListingCreateBookingModal
+				id={listing.id}
 				price={listing.price}
 				checkInDate={checkInDate}
 				checkOutDate={checkOutDate}
 				modalVisible={modalVisible}
 				setModalVisible={setModalVisible}
+				clearBookingData={clearBookingData}
+				handleListingRefetch={handleListingRefetch}
 			/>
 		) : null
 
