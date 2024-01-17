@@ -1,6 +1,7 @@
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js'
 import { Modal, Button, Divider, Typography } from 'antd'
 import { KeyOutlined } from '@ant-design/icons'
-import dayjs, { Dayjs } from 'dayjs'
+import { Dayjs } from 'dayjs'
 import { formatListingPrice } from '../../../../lib/utils'
 interface Props {
 	price: number
