@@ -64,6 +64,7 @@ export const ListingCreateBookingModal = ({
 
 	const handleCreateBooking = async (event: { preventDefault: () => void }) => {
 		event.preventDefault()
+
 		if (!stripe || !elements) {
 			console.log('Stripe.js has not yet loaded.')
 			return displayErrorMessage(
@@ -71,14 +72,9 @@ export const ListingCreateBookingModal = ({
 			)
 		}
 
-		// TODO : Source for the stripe payment intent
-		console.log('Stripe.js is loaded')
-		console.log(stripe)
-		const cardElement = elements.getElement(CardElement)
-		console.log(cardElement)
-
+		// TODO: remove this temporary data
 		const { token: stripeToken, error } = {
-			token: 'tok_1N3T00LkdIwHu7ixt44h1F8k',
+			token: 'tok_amex',
 			error: { message: null },
 		}
 
@@ -144,7 +140,10 @@ export const ListingCreateBookingModal = ({
 
 				<Divider />
 				<div className='listing-booking-modal__stripe-card-section'>
-					<CardElement className='listing_booking-modal__stripe-card' />
+					<CardElement
+						className='listing_booking-modal__stripe-card'
+						id='card'
+					/>
 
 					<Divider />
 					<Button
