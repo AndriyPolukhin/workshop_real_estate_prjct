@@ -101,7 +101,8 @@ export const bookingResolvers = {
 				}
 
 				// create Stripe charge on befalf o host
-				await Stripe.charge(totalPrice, source, host.walletId)
+				// await Stripe.charge(totalPrice, source, host.walletId)
+				// await Stripe.payment_intent(totalPrice, host.walletId)
 
 				// insert a new booking document to bookings collection
 				const insertResult = await db.bookings.insertOne({
