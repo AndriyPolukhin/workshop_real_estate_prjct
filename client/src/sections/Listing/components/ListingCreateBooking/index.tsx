@@ -128,7 +128,7 @@ export const ListingCreateBooking = ({
 				return <div className='ant-calendar-date'>{dayjs(current).date()}</div>
 			}
 		},
-		[]
+		[checkInDate]
 	)
 	return (
 		<div style={listingBookingStyle}>
