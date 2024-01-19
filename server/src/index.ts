@@ -7,6 +7,7 @@ import express from 'express'
 import cookieParser from 'cookie-parser'
 import http from 'http'
 import cors from 'cors'
+import compression from 'compression'
 import { expressMiddleware } from '@apollo/server/express4'
 import { ApolloServerPluginDrainHttpServer } from '@apollo/server/plugin/drainHttpServer'
 
@@ -20,7 +21,6 @@ async function startApolloServer() {
 		resolvers,
 		plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 	})
-
 	await server.start()
 
 	app.use(
@@ -28,9 +28,19 @@ async function startApolloServer() {
 		cors<cors.CorsRequest>({
 			origin: [`http://localhost:${port}`, 'https://studio.apollographql.com'],
 			credentials: true,
-		}),
-		express.json({ limit: '2mb' }),
-		cookieParser(process.env.SECRET),
+		})
+	)
+	app.use(express.json({ limit: '2mb' }))
+	app.use(cookieParser(process.env.SECRET))
+	app.use(compression())
+
+	if (process.env.NODE_ENV !== 'development') {
+		app.use(express.static(`${__dirname}/client`))
+		app.get('/*', (_req, res) => res.sendFile(`${__dirname}/client/index.html`))
+	}
+
+	app.use(
+		'/api',
 		expressMiddleware(server, {
 			context: async ({ req, res }) => ({
 				db,
