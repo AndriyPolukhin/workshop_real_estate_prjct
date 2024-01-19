@@ -1,6 +1,8 @@
-import { Button, Card, Typography, Divider, DatePicker } from 'antd'
+import { useCallback } from 'react'
+import { Button, Card, Typography, Divider, DatePicker, Tooltip } from 'antd'
 import { formatListingPrice, displayErrorMessage } from '../../../../lib/utils'
 import dayjs, { Dayjs } from 'dayjs'
+import type { CellRenderInfo } from 'rc-picker/es/interface'
 import { Viewer } from '../../../../lib/types'
 import { useViewer } from '../../../App'
 import { Listing } from '../../../../lib/graphql/__generated__/graphql'
@@ -47,7 +49,14 @@ export const ListingCreateBooking = ({
 	const disabledDate = (currentDate?: Dayjs) => {
 		if (currentDate) {
 			const dateIsBeforeEndOfDay = currentDate.isBefore(dayjs().endOf('day'))
-			return dateIsBeforeEndOfDay || dateIsBooked(currentDate)
+			const dateIsMoreThanThreeMonthsAhead = currentDate.isAfter(
+				dayjs().endOf('day').add(90, 'days')
+			)
+			return (
+				dateIsBeforeEndOfDay ||
+				dateIsMoreThanThreeMonthsAhead ||
+				dateIsBooked(currentDate)
+			)
 		} else {
 			return false
 		}
@@ -97,6 +106,30 @@ export const ListingCreateBooking = ({
 	} else if (!host.hasWallet) {
 		buttonMessage = `The host disconnected from Stripe and thus won't be able to receive payments!`
 	}
+
+	const cellRender = useCallback(
+		(current: number | Dayjs, info: CellRenderInfo<Dayjs>) => {
+			if (info.type !== 'date') {
+				return info.originNode
+			}
+
+			if (
+				typeof current === 'number' &&
+				dayjs(current).isSame(checkInDate ? checkInDate : undefined, 'day')
+			) {
+				return (
+					<Tooltip title='Check in date'>
+						<div className='ant-calendar-date ant-calendar-date__check-in'>
+							{dayjs(current).date()}
+						</div>
+					</Tooltip>
+				)
+			} else {
+				return <div className='ant-calendar-date'>{dayjs(current).date()}</div>
+			}
+		},
+		[]
+	)
 	return (
 		<div style={listingBookingStyle}>
 			<Card style={listingBookingCardStyle}>
@@ -118,6 +151,15 @@ export const ListingCreateBooking = ({
 							value={checkInDate}
 							onChange={(dateValue) => setCheckInDate(dateValue)}
 							onOpenChange={() => setCheckOutDate(null)}
+							renderExtraFooter={() => {
+								return (
+									<div>
+										<Text type='secondary' className='ant-calendar-footer-text'>
+											You can only book a listing within 90 days from today.
+										</Text>
+									</div>
+								)
+							}}
 						/>
 					</div>
 					<div style={listingBookingCardDatePickerStyle}>
@@ -129,6 +171,16 @@ export const ListingCreateBooking = ({
 							showToday={false}
 							value={checkOutDate}
 							onChange={(dateValue) => verifyAndSetCheckOutDate(dateValue)}
+							cellRender={cellRender}
+							renderExtraFooter={() => {
+								return (
+									<div>
+										<Text type='secondary' className='ant-calendar-footer-text'>
+											Check-out cannot be before check-in
+										</Text>
+									</div>
+								)
+							}}
 						/>
 					</div>
 				</div>

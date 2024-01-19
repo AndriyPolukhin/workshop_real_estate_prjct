@@ -1,4 +1,6 @@
 import { Request } from 'express'
+import { ObjectId } from 'mongodb'
+import { Stripe } from '../../../lib/api'
 import {
 	Database,
 	Booking,
@@ -6,10 +8,10 @@ import {
 	BookingIndex,
 	User,
 } from '../../../lib/types'
-import { CreateBookingsArgs } from './types'
 import { authorize } from '../../../lib/utils'
-import { Stripe } from '../../../lib/api'
-import { ObjectId } from 'mongodb'
+import { CreateBookingsArgs } from './types'
+
+const millisecondsPerDay = 86400000
 
 const resolveBookingsIndex = (
 	bookingsIndex: BookingIndex,
@@ -74,8 +76,21 @@ export const bookingResolvers = {
 					throw new Error("viewer can't book own listing")
 				}
 				// check that checkOut is Not before checkIn
+
+				const today = new Date()
 				const checkInDate = new Date(checkIn)
 				const checkOutDate = new Date(checkOut)
+				if (checkInDate.getTime() > today.getTime() + 90 * millisecondsPerDay) {
+					throw new Error(`check in date can't be more than 90 days from today`)
+				}
+				if (
+					checkOutDate.getTime() >
+					today.getTime() + 90 * millisecondsPerDay
+				) {
+					throw new Error(
+						`check out date can't be more than 90 days from today`
+					)
+				}
 				if (checkOutDate < checkInDate) {
 					throw new Error("check out date can't be before check in date")
 				}
@@ -89,7 +104,9 @@ export const bookingResolvers = {
 				// get total price to charge
 				const totalPrice =
 					listing.price *
-					(checkOutDate.getTime() - checkOutDate.getTime() / 86400000 + 1)
+					(checkOutDate.getTime() -
+						checkOutDate.getTime() / millisecondsPerDay +
+						1)
 
 				// get user document of host of listing
 				const host = await db.users.findOne({ _id: listing.host })
