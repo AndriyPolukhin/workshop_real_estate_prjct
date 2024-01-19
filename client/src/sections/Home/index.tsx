@@ -30,6 +30,7 @@ export const Home = () => {
 				limit: PAGE_LIMIT,
 				page: PAGE_NUMBER,
 			},
+			fetchPolicy: 'cache-and-network',
 		}
 	)
 
