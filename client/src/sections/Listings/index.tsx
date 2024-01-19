@@ -9,6 +9,7 @@ import {
 	ListingsQueryVariables,
 	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
+import { useScrollToTop } from '../../lib/hooks'
 import {
 	ListingsFilters,
 	ListingsPagination,
@@ -39,6 +40,7 @@ export const Listings = () => {
 		},
 	})
 
+	useScrollToTop()
 	useEffect(() => {
 		setPage(1)
 		locationRef.current = params.location

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/client'
 import { useParams } from 'react-router-dom'
+import { Dayjs } from 'dayjs'
 import { ErrorBanner, PageSkeleton } from '../../lib/components'
 import { Layout, Col, Row } from 'antd'
 import { LISTING } from '../../lib/graphql/queries'
@@ -9,15 +10,13 @@ import {
 	Listing as ListingType,
 	ListingQueryVariables,
 } from '../../lib/graphql/__generated__/graphql'
-
+import { useScrollToTop } from '../../lib/hooks'
 import {
 	ListingDetails,
 	ListingBookings,
 	ListingCreateBooking,
 	ListingCreateBookingModal,
 } from './components'
-
-import { Dayjs } from 'dayjs'
 
 interface MatchParams {
 	id?: string
@@ -42,6 +41,7 @@ export const Listing = () => {
 		},
 	})
 
+	useScrollToTop()
 	const clearBookingData = () => {
 		setModalVisible(false)
 		setCheckInDate(null)

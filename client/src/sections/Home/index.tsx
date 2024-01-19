@@ -1,7 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 import { Col, Row, Layout, Typography, Button } from 'antd'
-import { displayErrorMessage } from '../../lib/utils'
 import { LISTINGS } from '../../lib/graphql/queries'
 import {
 	ListingsQuery as ListingsData,
@@ -9,6 +8,8 @@ import {
 	ListingsQueryVariables,
 	ListingsFilter,
 } from '../../lib/graphql/__generated__/graphql'
+import { useScrollToTop } from '../../lib/hooks'
+import { displayErrorMessage } from '../../lib/utils'
 import { HomeHero, HomeListings, HomeListingsSkeleton } from './components'
 
 import mapBackground from './assets/map-background.jpg'
@@ -35,6 +36,7 @@ export const Home = () => {
 	)
 
 	const navigate = useNavigate()
+	useScrollToTop()
 	const onSearch = (value: string) => {
 		const trimmedValue = value.trim()
 

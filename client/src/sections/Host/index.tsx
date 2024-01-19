@@ -30,6 +30,7 @@ import {
 	displayErrorMessage,
 	displaySuccessNotification,
 } from '../../lib/utils'
+import { useScrollToTop } from '../../lib/hooks'
 import { RcFile, UploadChangeParam, UploadFile } from 'antd/es/upload'
 const { Content } = Layout
 const { Text, Title } = Typography
@@ -39,6 +40,7 @@ interface Props {
 	viewer: Viewer
 }
 export const Host = () => {
+	useScrollToTop()
 	const navigate = useNavigate()
 	const [imageLoading, setImageLoading] = useState(false)
 	const [imageBase64Value, setImageBase64Value] = useState<string | null>(null)
