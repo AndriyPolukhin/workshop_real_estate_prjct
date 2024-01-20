@@ -1,13 +1,7 @@
 import { Request } from 'express'
-import { ObjectId } from 'mongodb'
+import crypto from 'crypto'
 import { Stripe } from '../../../lib/api'
-import {
-	Database,
-	Booking,
-	Listing,
-	BookingIndex,
-	User,
-} from '../../../lib/types'
+import { Database, Booking, BookingIndex } from '../../../lib/types'
 import { authorize } from '../../../lib/utils'
 import { CreateBookingsArgs } from './types'
 
@@ -66,13 +60,13 @@ export const bookingResolvers = {
 					throw new Error('viewer cannot be found')
 				}
 				// Find listing document that is being booked
-				const listing = await db.listings.findOne({ _id: new ObjectId(id) })
+				const listing = await db.listings.findOne({ id })
 
 				if (!listing) {
 					throw new Error("listing can't be found")
 				}
 				// Check that the viewer is NOT booking their own listing
-				if (listing.host === viewer._id) {
+				if (listing.host === viewer.id) {
 					throw new Error("viewer can't book own listing")
 				}
 				// check that checkOut is Not before checkIn
@@ -109,7 +103,7 @@ export const bookingResolvers = {
 						1)
 
 				// get user document of host of listing
-				const host = await db.users.findOne({ _id: listing.host })
+				const host = await db.users.findOne({ id: listing.host })
 
 				if (!host || !host.walletId) {
 					throw new Error(
@@ -122,69 +116,43 @@ export const bookingResolvers = {
 				// await Stripe.payment_intent(totalPrice, host.walletId)
 
 				// insert a new booking document to bookings collection
-				const insertResult = await db.bookings.insertOne({
-					_id: new ObjectId(),
-					listing: listing._id,
-					tenant: viewer._id,
+
+				const newBooking: Booking = {
+					id: crypto.randomBytes(16).toString('hex'),
+					listing: listing.id,
+					tenant: viewer.id,
 					checkIn,
 					checkOut,
-				})
+				}
+				const insertedBooking = await db.bookings.create(newBooking).save()
 
 				// update user document of host to increment income
-				await db.users.updateOne(
-					{ _id: host._id },
-					{ $inc: { income: totalPrice } }
-				)
+				host.income = host.income + totalPrice
+				await host.save()
 
 				// update bookings field of tenant
-
-				await db.users.updateOne(
-					{ _id: viewer._id },
-					{
-						$push: {
-							bookings: insertResult.insertedId,
-						},
-					}
-				)
+				viewer.bookings.push(insertedBooking.id)
+				await viewer.save()
 
 				// update bookings field of listing document
-				await db.listings.updateOne(
-					{
-						_id: listing._id,
-					},
-					{
-						$set: { bookingsIndex },
-						$push: { bookings: insertResult.insertedId },
-					}
-				)
+				listing.bookingsIndex = bookingsIndex
+				listing.bookings.push(insertedBooking.id)
+				await listing.save()
 
 				// Return newly inserted booking
-				const insertedBooking = await db.bookings.findOne({
-					_id: insertResult.insertedId,
-				})
-				return insertedBooking as Booking
+
+				return insertedBooking
 			} catch (error) {
 				throw new Error(`Failed to create booking: ${error}`)
 			}
 		},
 	},
 	Booking: {
-		id: (booking: Booking): string => {
-			return booking._id.toString()
+		listing: async (booking: Booking, _args: {}, { db }: { db: Database }) => {
+			return await db.listings.findOne({ id: booking.listing })
 		},
-		listing: async (
-			booking: Booking,
-			_args: {},
-			{ db }: { db: Database }
-		): Promise<Listing | null> => {
-			return await db.listings.findOne({ _id: booking.listing })
-		},
-		tenant: async (
-			booking: Booking,
-			_args: {},
-			{ db }: { db: Database }
-		): Promise<User | null> => {
-			return await db.users.findOne({ _id: booking.tenant })
+		tenant: async (booking: Booking, _args: {}, { db }: { db: Database }) => {
+			return await db.users.findOne({ id: booking.tenant })
 		},
 	},
 }
