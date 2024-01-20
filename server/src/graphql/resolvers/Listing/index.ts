@@ -1,8 +1,7 @@
 import { Request } from 'express'
-import { ObjectId } from 'mongodb'
 import { Google, Cloudinary } from '../../../lib/api'
 import { Listing, Database, User } from '../../../lib/types'
-
+import crypto from 'crypto'
 import { authorize } from '../../../lib/utils'
 import {
 	ListingArgs,
@@ -14,6 +13,7 @@ import {
 	ListingsQuery,
 	HostListingInput,
 	HostListingArgs,
+	Order,
 } from './types'
 import { ListingType } from '../../types'
 
@@ -46,14 +46,14 @@ export const listingResolvers = {
 			{ db, req }: { db: Database; req: Request }
 		): Promise<Listing> => {
 			try {
-				const listing = await db.listings.findOne({ _id: new ObjectId(id) })
+				const listing = (await db.listings.findOne({ id })) as Listing
 
 				if (!listing) {
 					throw new Error("listing can't be found")
 				}
 
 				const viewer = await authorize(db, req)
-				if (viewer && viewer._id === listing.host) {
+				if (viewer && viewer.id === listing.host) {
 					listing.authorized = true
 				}
 
@@ -90,25 +90,26 @@ export const listingResolvers = {
 					data.region = `${cityText}${adminText}${country}`
 				}
 
-				let cursor = await db.listings.find(query)
+				let order: Order | null = null
 
 				if (filter && filter === ListingsFilter.PRICE_LOW_TO_HIGH) {
-					cursor = cursor.sort({
-						price: 1,
-					})
+					order = { price: 'ASC' }
 				}
 
 				if (filter && filter === ListingsFilter.PRICE_HIGH_TO_LOW) {
-					cursor = cursor.sort({
-						price: -1,
-					})
+					order = { price: 'DESC' }
 				}
 
-				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
-				cursor = cursor.limit(limit)
+				const count = await db.listings.count(query)
+				const listings = await db.listings.find({
+					where: { ...query },
+					order: { ...order },
+					skip: page > 0 ? (page - 1) * limit : 0,
+					take: limit,
+				})
 
-				data.total = (await db.listings.find(query).toArray()).length
-				data.result = await cursor.toArray()
+				data.total = count
+				data.result = listings
 
 				return data
 			} catch (error) {
@@ -137,8 +138,8 @@ export const listingResolvers = {
 
 			const imageUrl = await Cloudinary.upload(input.image)
 
-			const insertResult = await db.listings.insertOne({
-				_id: new ObjectId(),
+			const newListing: Listing = {
+				id: crypto.randomBytes(16).toString('hex'),
 				...input,
 				image: imageUrl,
 				bookings: [],
@@ -146,31 +147,24 @@ export const listingResolvers = {
 				country,
 				admin,
 				city,
-				host: viewer._id,
-			})
+				host: viewer.id,
+			}
 
-			const insertedListing = await db.listings.findOne({
-				_id: insertResult.insertedId,
-			})
-			await db.users.updateOne(
-				{ _id: viewer._id },
-				{ $push: { listings: insertResult.insertedId } }
-			)
+			const insertedListing = await db.listings.create(newListing).save()
+			viewer.listings.push(insertedListing.id)
+			await viewer.save()
 
-			return insertedListing as Listing
+			return insertedListing
 		},
 	},
 	Listing: {
-		id: (listing: Listing): string => {
-			return listing._id.toString()
-		},
 		host: async (
 			listing: Listing,
 			_args: {},
 			{ db }: { db: Database }
 		): Promise<User> => {
 			try {
-				const host = await db.users.findOne({ _id: listing.host })
+				const host = await db.users.findOne({ id: listing.host })
 				if (!host) {
 					throw new Error("host couldn't be found")
 				}
@@ -196,21 +190,14 @@ export const listingResolvers = {
 					total: 0,
 					result: [],
 				}
-				let cursor = await db.bookings.find({
-					_id: { $in: listing.bookings },
+				const bookings = await db.bookings.findByIds(listing.bookings, {
+					skip: page > 0 ? (page - 1) * limit : 0,
+					take: limit,
 				})
 
-				cursor = cursor.skip(page > 0 ? (page - 1) * limit : 0)
-				cursor = cursor.limit(limit)
+				data.total = listing.bookings.length
 
-				data.total = (
-					await db.bookings
-						.find({
-							_id: { $in: listing.bookings },
-						})
-						.toArray()
-				).length
-				data.result = await cursor.toArray()
+				data.result = bookings
 
 				return data
 			} catch (error) {
