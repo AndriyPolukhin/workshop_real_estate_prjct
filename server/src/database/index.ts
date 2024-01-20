@@ -1,17 +1,22 @@
-import { MongoClient } from 'mongodb'
-import { Database, User, Listing, Booking } from '../lib/types'
+import 'reflect-metadata'
+import { AppDataSource } from './data-source'
+import { Database } from '../lib/types'
+import { UserEntity, ListingEntity, BookingEntity } from './entity'
 
-const connectDatabase = async (): Promise<Database> => {
+export const connectDatabase = async (): Promise<Database> => {
 	try {
-		const client = await MongoClient.connect(`${process.env.MONGO_URI}`)
+		const db = await AppDataSource.initialize()
 
-		const db = client.db('main')
-		console.log(`		💽  MongoDB Connected to db: ${db.namespace}`)
+		const bookings = db.getRepository(BookingEntity)
+		const listings = db.getRepository(ListingEntity)
+		const users = db.getRepository(UserEntity)
+
+		console.log(`		💽  MongoDB Connected to db: `)
 
 		return {
-			bookings: db.collection<Booking>('bookings'),
-			listings: db.collection<Listing>('listings'),
-			users: db.collection<User>('users'),
+			bookings,
+			listings,
+			users,
 		}
 	} catch (error) {
 		console.log(`Error: ${error}`)
