@@ -1,7 +1,7 @@
 // * :logo-google
 import googleLogo from './assets/google_logo.jpg'
 import { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useApolloClient, useMutation } from '@apollo/client'
 import { ErrorBanner } from '../../lib/components'
 import { LOG_IN } from '../../lib/graphql/mutations'
@@ -17,6 +17,7 @@ import {
 	displaySuccessNotification,
 } from '../../lib/utils'
 import { useViewer } from '../index'
+import { useScrollToTop } from '../../lib/hooks'
 
 const { Content } = Layout
 const { Text, Title } = Typography
@@ -52,9 +53,12 @@ export const Login: React.FC = () => {
 
 	/** refference persist until the component is reloaded */
 	const logInRef = useRef(logIn)
+	const location = useLocation()
+	useScrollToTop()
 
 	useEffect(() => {
-		const code = new URL(window.location.href).searchParams.get('code')
+		const searchParams = new URLSearchParams(location.search)
+		const code = searchParams.get('code')
 
 		if (code) {
 			logInRef.current({
@@ -63,7 +67,7 @@ export const Login: React.FC = () => {
 				},
 			})
 		}
-	}, [])
+	}, [location.search])
 
 	const handleAuthorize = async () => {
 		try {
