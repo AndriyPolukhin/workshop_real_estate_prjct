@@ -70,7 +70,7 @@ export const Login: React.FC = () => {
 			const { data } = await client.query<AuthUrlData>({
 				query: AUTH_URL,
 			})
-			window.location.href = data.authUrl
+			window.location.assign(data.authUrl)
 		} catch {
 			displayErrorMessage(
 				"Sorry! We weren't able to log you in. Please try again later!"
